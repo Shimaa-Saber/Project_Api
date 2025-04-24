@@ -24,8 +24,11 @@ namespace Project_Api.Migrations
 
             modelBuilder.Entity("ProjectApi.Models.AudioSessionDetail", b =>
                 {
-                    b.Property<int>("SessionId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Bitrate")
                         .HasColumnType("int");
@@ -41,7 +44,13 @@ namespace Project_Api.Migrations
                     b.Property<int>("SampleRate")
                         .HasColumnType("int");
 
-                    b.HasKey("SessionId");
+                    b.Property<int>("SessionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SessionId")
+                        .IsUnique();
 
                     b.ToTable("AudioSessionDetails");
                 });
@@ -73,9 +82,14 @@ namespace Project_Api.Migrations
                     b.Property<int>("TherapistId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("TherapistProfileId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("TherapistId");
+
+                    b.HasIndex("TherapistProfileId");
 
                     b.ToTable("AvailabilitySlots");
                 });
@@ -188,6 +202,7 @@ namespace Project_Api.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Amount")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -248,9 +263,8 @@ namespace Project_Api.Migrations
                     b.Property<int>("TherapistId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -290,19 +304,28 @@ namespace Project_Api.Migrations
 
             modelBuilder.Entity("ProjectApi.Models.TextSessionDetail", b =>
                 {
-                    b.Property<int>("SessionId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("ChatId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SessionId")
                         .HasColumnType("int");
 
                     b.Property<string>("Transcript")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SessionId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ChatId");
+
+                    b.HasIndex("SessionId")
+                        .IsUnique();
 
                     b.ToTable("TextSessionDetails");
                 });
@@ -320,6 +343,7 @@ namespace Project_Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("PricePerSession")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("SupportsAudio")
@@ -360,9 +384,6 @@ namespace Project_Api.Migrations
                     b.Property<bool>("Anonymous")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -387,8 +408,6 @@ namespace Project_Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
 
                     b.HasIndex("SessionId");
 
@@ -457,9 +476,8 @@ namespace Project_Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -471,8 +489,11 @@ namespace Project_Api.Migrations
 
             modelBuilder.Entity("ProjectApi.Models.VideoSessionDetail", b =>
                 {
-                    b.Property<int>("SessionId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("MeetingUrl")
                         .IsRequired()
@@ -486,10 +507,16 @@ namespace Project_Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("SessionId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("WasRecorded")
                         .HasColumnType("bit");
 
-                    b.HasKey("SessionId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("SessionId")
+                        .IsUnique();
 
                     b.ToTable("VideoSessionDetails");
                 });
@@ -507,11 +534,15 @@ namespace Project_Api.Migrations
 
             modelBuilder.Entity("ProjectApi.Models.AvailabilitySlot", b =>
                 {
-                    b.HasOne("ProjectApi.Models.TherapistProfile", "Therapist")
-                        .WithMany("AvailabilitySlots")
+                    b.HasOne("ProjectApi.Models.User", "Therapist")
+                        .WithMany()
                         .HasForeignKey("TherapistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ProjectApi.Models.TherapistProfile", null)
+                        .WithMany("AvailabilitySlots")
+                        .HasForeignKey("TherapistProfileId");
 
                     b.Navigation("Therapist");
                 });
@@ -524,7 +555,7 @@ namespace Project_Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjectApi.Models.TherapistProfile", "Therapist")
+                    b.HasOne("ProjectApi.Models.User", "Therapist")
                         .WithMany()
                         .HasForeignKey("TherapistId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -643,25 +674,17 @@ namespace Project_Api.Migrations
 
             modelBuilder.Entity("ProjectApi.Models.TherapistReview", b =>
                 {
-                    b.HasOne("ProjectApi.Models.User", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ProjectApi.Models.Session", "Session")
                         .WithMany("Reviews")
                         .HasForeignKey("SessionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjectApi.Models.TherapistProfile", "Therapist")
+                    b.HasOne("ProjectApi.Models.User", "Therapist")
                         .WithMany()
                         .HasForeignKey("TherapistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Client");
 
                     b.Navigation("Session");
 

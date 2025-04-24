@@ -38,7 +38,7 @@ namespace Project_Api.Migrations
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<int>(type: "int", nullable: false),
                     IsVerified = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -46,6 +46,35 @@ namespace Project_Api.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Chats",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    TherapistId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastMessageAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Chats", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Chats_Users_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_Chats_Users_TherapistId",
+                        column: x => x.TherapistId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,7 +110,7 @@ namespace Project_Api.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     YearsOfExperience = table.Column<int>(type: "int", nullable: false),
-                    PricePerSession = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PricePerSession = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Timezone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SupportsVideo = table.Column<bool>(type: "bit", nullable: false),
                     SupportsAudio = table.Column<bool>(type: "bit", nullable: false),
@@ -99,6 +128,35 @@ namespace Project_Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ChatId = table.Column<int>(type: "int", nullable: false),
+                    SenderId = table.Column<int>(type: "int", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsRead = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_Chats_ChatId",
+                        column: x => x.ChatId,
+                        principalTable: "Chats",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_Messages_Users_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AvailabilitySlots",
                 columns: table => new
                 {
@@ -109,43 +167,20 @@ namespace Project_Api.Migrations
                     StartTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     EndTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     SlotType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsBooked = table.Column<bool>(type: "bit", nullable: false)
+                    IsBooked = table.Column<bool>(type: "bit", nullable: false),
+                    TherapistProfileId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AvailabilitySlots", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AvailabilitySlots_TherapistProfiles_TherapistId",
-                        column: x => x.TherapistId,
+                        name: "FK_AvailabilitySlots_TherapistProfiles_TherapistProfileId",
+                        column: x => x.TherapistProfileId,
                         principalTable: "TherapistProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Chats",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
-                    TherapistId = table.Column<int>(type: "int", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastMessageAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Chats", x => x.Id);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Chats_TherapistProfiles_TherapistId",
+                        name: "FK_AvailabilitySlots_Users_TherapistId",
                         column: x => x.TherapistId,
-                        principalTable: "TherapistProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
-                    table.ForeignKey(
-                        name: "FK_Chats_Users_ClientId",
-                        column: x => x.ClientId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
@@ -186,7 +221,7 @@ namespace Project_Api.Migrations
                     ClientId = table.Column<int>(type: "int", nullable: false),
                     TherapistId = table.Column<int>(type: "int", nullable: false),
                     AvailabilitySlotId = table.Column<int>(type: "int", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -215,38 +250,11 @@ namespace Project_Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Messages",
+                name: "AudioSessionDetails",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ChatId = table.Column<int>(type: "int", nullable: false),
-                    SenderId = table.Column<int>(type: "int", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsRead = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Messages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Messages_Chats_ChatId",
-                        column: x => x.ChatId,
-                        principalTable: "Chats",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
-                    table.ForeignKey(
-                        name: "FK_Messages_Users_SenderId",
-                        column: x => x.SenderId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AudioSessionDetails",
-                columns: table => new
-                {
                     SessionId = table.Column<int>(type: "int", nullable: false),
                     CallUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Platform = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -255,7 +263,7 @@ namespace Project_Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AudioSessionDetails", x => x.SessionId);
+                    table.PrimaryKey("PK_AudioSessionDetails", x => x.Id);
                     table.ForeignKey(
                         name: "FK_AudioSessionDetails_Sessions_SessionId",
                         column: x => x.SessionId,
@@ -272,7 +280,7 @@ namespace Project_Api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     SessionId = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReceiptUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -299,13 +307,15 @@ namespace Project_Api.Migrations
                 name: "TextSessionDetails",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     SessionId = table.Column<int>(type: "int", nullable: false),
                     ChatId = table.Column<int>(type: "int", nullable: false),
                     Transcript = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TextSessionDetails", x => x.SessionId);
+                    table.PrimaryKey("PK_TextSessionDetails", x => x.Id);
                     table.ForeignKey(
                         name: "FK_TextSessionDetails_Chats_ChatId",
                         column: x => x.ChatId,
@@ -327,7 +337,6 @@ namespace Project_Api.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TherapistId = table.Column<int>(type: "int", nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
                     SessionId = table.Column<int>(type: "int", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -346,14 +355,8 @@ namespace Project_Api.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
-                        name: "FK_TherapistReviews_TherapistProfiles_TherapistId",
+                        name: "FK_TherapistReviews_Users_TherapistId",
                         column: x => x.TherapistId,
-                        principalTable: "TherapistProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
-                    table.ForeignKey(
-                        name: "FK_TherapistReviews_Users_ClientId",
-                        column: x => x.ClientId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
@@ -363,6 +366,8 @@ namespace Project_Api.Migrations
                 name: "VideoSessionDetails",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     SessionId = table.Column<int>(type: "int", nullable: false),
                     MeetingUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Platform = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -371,7 +376,7 @@ namespace Project_Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VideoSessionDetails", x => x.SessionId);
+                    table.PrimaryKey("PK_VideoSessionDetails", x => x.Id);
                     table.ForeignKey(
                         name: "FK_VideoSessionDetails_Sessions_SessionId",
                         column: x => x.SessionId,
@@ -381,9 +386,20 @@ namespace Project_Api.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AudioSessionDetails_SessionId",
+                table: "AudioSessionDetails",
+                column: "SessionId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AvailabilitySlots_TherapistId",
                 table: "AvailabilitySlots",
                 column: "TherapistId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AvailabilitySlots_TherapistProfileId",
+                table: "AvailabilitySlots",
+                column: "TherapistProfileId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Chats_ClientId",
@@ -442,15 +458,16 @@ namespace Project_Api.Migrations
                 column: "ChatId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TextSessionDetails_SessionId",
+                table: "TextSessionDetails",
+                column: "SessionId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TherapistProfiles_UserId",
                 table: "TherapistProfiles",
                 column: "UserId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TherapistReviews_ClientId",
-                table: "TherapistReviews",
-                column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TherapistReviews_SessionId",
@@ -471,6 +488,12 @@ namespace Project_Api.Migrations
                 name: "IX_TherapistSpecializations_TherapistId",
                 table: "TherapistSpecializations",
                 column: "TherapistId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VideoSessionDetails_SessionId",
+                table: "VideoSessionDetails",
+                column: "SessionId",
+                unique: true);
         }
 
         /// <inheritdoc />

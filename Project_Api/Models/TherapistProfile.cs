@@ -1,8 +1,11 @@
-﻿namespace ProjectApi.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ProjectApi.Models
 {
     public class TherapistProfile
     {
         public int Id { get; set; }
+        [ForeignKey("User")]
         public int UserId { get; set; }
         public string Bio { get; set; }
         public int YearsOfExperience { get; set; }

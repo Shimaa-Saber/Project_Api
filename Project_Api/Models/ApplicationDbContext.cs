@@ -4,7 +4,7 @@ namespace ProjectApi.Models
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        //public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
         public DbSet<TherapistProfile> TherapistProfiles { get; set; }
@@ -21,19 +21,32 @@ namespace ProjectApi.Models
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Payment> Payments { get; set; }
 
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> option) : base(option)
+        {
+
+        }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<VideoSessionDetail>().HasKey(v => v.SessionId);
-            modelBuilder.Entity<AudioSessionDetail>().HasKey(a => a.SessionId);
-            modelBuilder.Entity<TextSessionDetail>().HasKey(t => t.SessionId);
+            modelBuilder.Entity<Payment>()
+       .Property(p => p.Amount)
+       .HasPrecision(18, 2); // 18 digits total, 2 decimal places
 
+            modelBuilder.Entity<TherapistProfile>()
+                .Property(t => t.PricePerSession)
+                .HasPrecision(18, 2);
+
+            //modelBuilder.Entity<TherapistSpecialization>()
+            //    .Property(t => t.)
+            //    .HasPrecision(3, 2); // e.g., 0.75, 1.00
+
+            // Other configurations...
             modelBuilder.Entity<User>()
-                .Property(u => u.Role)
-                .HasConversion<string>();
-
-            modelBuilder.Entity<Session>()
-                .Property(s => s.Type)
-                .HasConversion<string>();
+                .HasOne(u => u.TherapistProfile)
+                .WithOne(t => t.User)
+                .HasForeignKey<TherapistProfile>(t => t.UserId);
         }
     }
 }
