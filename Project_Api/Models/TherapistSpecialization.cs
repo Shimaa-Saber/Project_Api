@@ -6,7 +6,7 @@ namespace ProjectApi.Models
     {
         public int Id { get; set; }
         [ForeignKey("Therapist")]
-        public int TherapistId { get; set; }
+        public string TherapistId { get; set; }
         [ForeignKey("Specialization")]
         public int SpecializationId { get; set; }
 

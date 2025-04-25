@@ -1,12 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Project_Api.Models;
 
 namespace ProjectApi.Models
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         //public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public DbSet<User> Users { get; set; }
+       // public DbSet<User> Users { get; set; }
         public DbSet<TherapistProfile> TherapistProfiles { get; set; }
         public DbSet<SpecializationType> SpecializationTypes { get; set; }
         public DbSet<TherapistSpecialization> TherapistSpecializations { get; set; }
@@ -30,6 +32,13 @@ namespace ProjectApi.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ApplicationRole>().HasData(
+                new ApplicationRole { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
+                new ApplicationRole { Id = "2", Name = "User", NormalizedName = "USER" },
+                new ApplicationRole { Id = "3", Name = "Therapist", NormalizedName = "THERAPIST" }
+            );
             modelBuilder.Entity<Payment>()
        .Property(p => p.Amount)
        .HasPrecision(18, 2); // 18 digits total, 2 decimal places
@@ -43,10 +52,10 @@ namespace ProjectApi.Models
             //    .HasPrecision(3, 2); // e.g., 0.75, 1.00
 
             // Other configurations...
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.TherapistProfile)
-                .WithOne(t => t.User)
-                .HasForeignKey<TherapistProfile>(t => t.UserId);
+            //modelBuilder.Entity<User>()
+            //    .HasOne(u => u.TherapistProfile)
+            //    .WithOne(t => t.User)
+            //    .HasForeignKey<TherapistProfile>(t => t.UserId);
         }
     }
 }

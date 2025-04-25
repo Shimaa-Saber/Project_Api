@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Project_Api.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectApi.Models
 {
@@ -6,7 +7,7 @@ namespace ProjectApi.Models
     {
         public int Id { get; set; }
         [ForeignKey("Therapist")]
-        public int TherapistId { get; set; }
+        public string TherapistId { get; set; }
        
         [ForeignKey("Session")]
         public int SessionId { get; set; }
@@ -17,8 +18,7 @@ namespace ProjectApi.Models
         public bool IsVerified { get; set; }
         public DateTime CreatedAt { get; set; }
 
-       
-        public User Therapist { get; set; }
+        public ApplicationUser Therapist { get; set; }
         public Session Session { get; set; }
     }
 }

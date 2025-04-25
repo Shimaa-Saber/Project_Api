@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Project_Api.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectApi.Models
 {
@@ -6,7 +7,7 @@ namespace ProjectApi.Models
     {
         public int Id { get; set; }
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [ForeignKey("Session")]
         public int SessionId { get; set; }
         public decimal Amount { get; set; }
@@ -15,7 +16,7 @@ namespace ProjectApi.Models
         public string ReceiptUrl { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public User User { get; set; }
+        public ApplicationUser User { get; set; }
         public Session Session { get; set; }
     }
 }

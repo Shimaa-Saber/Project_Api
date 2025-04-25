@@ -16,8 +16,8 @@ namespace Project_Api.Reposatories
 
         public Session GetById(int id) => _context.Sessions.Find(id);
 
-        public List<Session> GetByTherapistId(int therapistId) =>
-            _context.Sessions.Where(s => s.TherapistId == therapistId).ToList();
+        //public List<Session> GetByTherapistId(int therapistId) =>
+        //    _context.Sessions.Where(s => s.TherapistId == therapistId).ToList();
 
         public void insert(Session obj) => _context.Sessions.Add(obj);
 

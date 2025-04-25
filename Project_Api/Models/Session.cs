@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Project_Api.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectApi.Models
 {
@@ -9,9 +10,9 @@ namespace ProjectApi.Models
     {
         public int Id { get; set; }
         [ForeignKey("Client")]
-        public int ClientId { get; set; }
+        public string ClientId { get; set; }
         [ForeignKey("Therapist")]
-        public int TherapistId { get; set; }
+        public string TherapistId { get; set; }
         [ForeignKey("AvailabilitySlot")]
         public int AvailabilitySlotId { get; set; }
         public SessionType Type { get; set; }
@@ -19,8 +20,8 @@ namespace ProjectApi.Models
         public string Notes { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public User Client { get; set; }
-        public TherapistProfile Therapist { get; set; }
+        public ApplicationUser Client { get; set; }
+        public ApplicationUser Therapist { get; set; }
         public AvailabilitySlot AvailabilitySlot { get; set; }
 
         public VideoSessionDetail VideoSessionDetail { get; set; }
