@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Project_Api.DTO
+namespace Project_Api.DTO.UserDtos
 {
     public class TherapistRegisterDto
     {
@@ -10,24 +10,24 @@ namespace Project_Api.DTO
         [Required][Compare("Password")] public string ConfirmPassword { get; set; }
         [Required] public string PhoneNumber { get; set; }
 
-       
+
         [Required] public string FullName { get; set; }
         [Required] public DateTime DateOfBirth { get; set; }
         [Required] public string Gender { get; set; }
 
-        
+
         [Required] public string Bio { get; set; }
         [Required] public int YearsOfExperience { get; set; }
         [Required] public decimal PricePerSession { get; set; }
 
-        
+
         [Required][MinLength(1)] public List<int> SpecializationIds { get; set; }
 
-       
+
         public List<AvailabilitySlotDto> DefaultAvailability { get; set; }
 
         [Required] public string LicenseNumber { get; set; }
-        public IFormFile LicenseCertificate { get; set; } 
+        public IFormFile LicenseCertificate { get; set; }
         public IFormFile ProfilePicture { get; set; }
     }
 }

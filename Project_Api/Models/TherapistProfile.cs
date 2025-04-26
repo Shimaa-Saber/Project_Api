@@ -11,7 +11,7 @@ namespace ProjectApi.Models
         public string Bio { get; set; }
         public int YearsOfExperience { get; set; }
         public decimal PricePerSession { get; set; }
-        public string Timezone { get; set; }
+        public string? Timezone { get; set; }
         public bool SupportsVideo { get; set; }
         public bool SupportsAudio { get; set; }
         public bool SupportsText { get; set; }

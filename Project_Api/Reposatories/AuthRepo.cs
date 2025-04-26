@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Project_Api.DTO.UserDtos.changePasswordDtos;
+using Project_Api.DTO;
 using Project_Api.Interfaces;
 using Project_Api.Models;
 using ProjectApi.Models;
@@ -10,16 +12,19 @@ namespace Project_Api.Reposatories
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailService _emailService;
         private readonly ILogger<AuthRepo> _logger;
 
         public AuthRepo(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
-            ILogger<AuthRepo> logger)
+            ILogger<AuthRepo> logger,
+            IEmailService emailService)
         {
             _context = context;
             _userManager = userManager;
             _logger = logger;
+            _emailService = emailService;
         }
 
         public void Delete(ApplicationUser obj)
@@ -98,6 +103,95 @@ namespace Project_Api.Reposatories
         {
             return await _userManager.Users
                 .AnyAsync(u => u.Id == userId);
+        }
+
+
+        public async Task<ResponseDto> ChangePasswordAsync(ChangePasswordDto passwordDto)
+        {
+            var user = await _userManager.FindByEmailAsync(passwordDto.Email);
+            if (user == null || !await _userManager.CheckPasswordAsync(user, passwordDto.CurrentPassword))
+            {
+                return new ResponseDto
+                {
+                    Message = "User not found!!",
+                    IsSucceeded = false,
+                    StatusCode = 400
+                };
+            }
+            var result = await _userManager.ChangePasswordAsync(user, passwordDto.CurrentPassword, passwordDto.NewPassword);
+            if (!result.Succeeded)
+            {
+                return new ResponseDto
+                {
+
+                    Message = "Failed to change password , try agin",
+                    IsSucceeded = false,
+                    StatusCode = 400
+                };
+            }
+            return new ResponseDto
+            {
+                Message = "Password has changed successfully",
+                IsSucceeded = true,
+                StatusCode = 200
+            };
+        }
+
+
+        public async Task<ResponseDto> ForgotPasswordAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return new ResponseDto
+                {
+                    Message = "User not found!",
+                    IsSucceeded = false,
+                    StatusCode = 404
+                };
+            }
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            string subject = "Password Reset Request";
+            string message = $"Please use the following token to reset your password: {token}";
+            await _emailService.sendEmailAsync(email, subject, message);
+            return new ResponseDto
+            {
+                Message = "Password reset link sent successfully!",
+                IsSucceeded = true,
+                StatusCode = 200
+            };
+        }
+
+
+        public async Task<ResponseDto> ResetPasswordAsync(ResetPasswordDto passDto)
+        {
+            var user = await _userManager.FindByEmailAsync(passDto.Email);
+            if (user == null)
+                return new ResponseDto
+                {
+                    Message = "User not found!!",
+                    IsSucceeded = false,
+                    StatusCode = 400
+                };
+
+
+            var result = await _userManager.ResetPasswordAsync(user, passDto.Token, passDto.NewPassword);
+            if (!result.Succeeded)
+            {
+                return new ResponseDto
+                {
+
+                    Message = "Failed to reset password , try agin",
+                    IsSucceeded = false,
+                    StatusCode = 400
+                };
+            }
+            return new ResponseDto
+            {
+                Message = "Passwored reset successfully ",
+                IsSucceeded = true,
+                StatusCode = 200
+            };
         }
     }
 

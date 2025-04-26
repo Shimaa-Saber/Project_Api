@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Project_Api.DTO;
+using Project_Api.DTO.UserDtos;
+using Project_Api.DTO.UserDtos.changePasswordDtos;
 using Project_Api.Interfaces;
 using Project_Api.Models;
 
@@ -40,7 +41,7 @@ namespace Project_Api.Controllers
         }
 
         [HttpPost("register")]//api/accoutn/register
-        public async Task<IActionResult> Register(UserRegister userFromConsumer)
+        public async Task<IActionResult> Register([FromForm] UserRegister userFromConsumer)
         {
             if (ModelState.IsValid)
             {
@@ -52,7 +53,7 @@ namespace Project_Api.Controllers
                 user.PhoneNumber = userFromConsumer.Phone;
                 user.UserName = userFromConsumer.UserName.Replace(" ", "");
                 user.PasswordHash = userFromConsumer.Password;
-                //user.PasswordHash = userFromConsumer.ConfirmPassword;
+                user.PasswordHash = userFromConsumer.ConfirmPassword;
                 user.DateOfBirth = userFromConsumer.DateOfBirth;
                 user.Gender = userFromConsumer.Gender;
                 user.IsVerified = true;
@@ -76,7 +77,7 @@ namespace Project_Api.Controllers
         }
 
         [HttpPost("login")]//api/accuont/login
-        public async Task<IActionResult> Login(Login userFromConsumer)
+        public async Task<IActionResult> Login([FromForm] Login userFromConsumer)
         {
             if (ModelState.IsValid)
             {
@@ -172,6 +173,7 @@ namespace Project_Api.Controllers
             // 4. Create therapist profile
             var profile = new TherapistProfile
             {
+                Id = Guid.NewGuid().ToString("N"),
                 UserId = user.Id,
                 Bio = dto.Bio,
                 YearsOfExperience = dto.YearsOfExperience,
@@ -251,6 +253,42 @@ namespace Project_Api.Controllers
             }
 
             return NoContent();
+        }
+
+
+        [HttpPut("ChangePassword")]
+        public async Task<IActionResult> ChangePasswordAsync(ChangePasswordDto password)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var response = await _profileRepository.ChangePasswordAsync(password);
+            if (response.IsSucceeded)
+                return Ok(response);
+            return StatusCode(response.StatusCode);
+        }
+
+
+        [HttpPost("Forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var response = await _profileRepository.ForgotPasswordAsync(dto.Email);
+            return response.IsSucceeded
+                ? Ok(response)
+                : StatusCode(response.StatusCode, response.model);
+        }
+
+        [HttpPut("ResetPassword")]
+        public async Task<IActionResult> ResetPassswordAsync(ResetPasswordDto password)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var response = await _profileRepository.ResetPasswordAsync(password);
+            if (response.IsSucceeded)
+                return Ok(response);
+            return StatusCode(response.StatusCode);
         }
 
 

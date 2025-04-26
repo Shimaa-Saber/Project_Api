@@ -18,6 +18,14 @@ namespace Project_Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+
+
+
+
+
+
             builder.Services.AddScoped<Chats, ChatRepository>();
             builder.Services.AddScoped<messages, MessageRepository>();
             builder.Services.AddScoped<Slots, AvailabilitySlotRepository>();
@@ -29,6 +37,7 @@ namespace Project_Api
             builder.Services.AddScoped<Notifications, NotificationRepository>();
             builder.Services.AddScoped<Auth, AuthRepo>();
             builder.Services.AddScoped<FileUploadService>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddHttpContextAccessor();
 
 
@@ -113,7 +122,7 @@ namespace Project_Api
             });
 
             var app = builder.Build();
-
+            app.UseStaticFiles();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

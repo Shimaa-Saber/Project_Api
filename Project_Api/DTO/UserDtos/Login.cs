@@ -1,4 +1,4 @@
-﻿namespace Project_Api.DTO
+﻿namespace Project_Api.DTO.UserDtos
 {
     public class Login
     {

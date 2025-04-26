@@ -1,4 +1,6 @@
-﻿using Project_Api.Models;
+﻿using Project_Api.DTO;
+using Project_Api.DTO.UserDtos.changePasswordDtos;
+using Project_Api.Models;
 using ProjectApi.Repositories;
 
 namespace Project_Api.Interfaces
@@ -7,6 +9,10 @@ namespace Project_Api.Interfaces
     {
         Task<UserProfileResponse> GetUserProfileAsync(string userId);
         Task<UpdateProfileResult> UpdateUserProfileAsync(string userId, UpdateProfileRequest request);
+
+        Task<ResponseDto> ChangePasswordAsync(ChangePasswordDto passwordDto);
+        Task<ResponseDto> ForgotPasswordAsync(string email);
+        Task<ResponseDto> ResetPasswordAsync(ResetPasswordDto passDto);
         Task<bool> UserExistsAsync(string userId);
     }
 
