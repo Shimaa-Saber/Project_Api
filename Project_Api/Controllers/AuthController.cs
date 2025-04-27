@@ -134,19 +134,24 @@ namespace Project_Api.Controllers
 
 
         [HttpPost("register/therapist")]
-        public async Task<IActionResult> RegisterTherapist(
-       [FromForm] TherapistRegisterDto dto)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> RegisterTherapist([FromForm] TherapistRegisterDto dto)
         {
             // 1. Validate input
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             // 2. Check if specializations exist
             var specializationsExist = await _context.SpecializationTypes
                 .CountAsync(s => dto.SpecializationIds.Contains(s.Id)) == dto.SpecializationIds.Count;
 
             if (!specializationsExist)
+            {
                 return BadRequest("One or more specializations are invalid");
+            }
 
             // 3. Create user
             var user = new ApplicationUser
@@ -157,20 +162,19 @@ namespace Project_Api.Controllers
                 FullName = dto.FullName,
                 DateOfBirth = dto.DateOfBirth,
                 Gender = dto.Gender,
-                //Role = UserRole.Therapist,
                 IsVerified = false // Admin must verify
             };
 
             var result = await userManager.CreateAsync(user, dto.Password);
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                await userManager.AddToRoleAsync(user, "Therapist");
-                await signInManager.SignInAsync(user, isPersistent: false);
+                return BadRequest(result.Errors);
             }
-            //else { }
-            //    return BadRequest(result.Errors);
 
-            // 4. Create therapist profile
+            // 4. Add to Therapist role
+            await userManager.AddToRoleAsync(user, "Therapist");
+
+            // 5. Create therapist profile with explicit ID
             var profile = new TherapistProfile
             {
                 Id = Guid.NewGuid().ToString("N"),
@@ -178,38 +182,52 @@ namespace Project_Api.Controllers
                 Bio = dto.Bio,
                 YearsOfExperience = dto.YearsOfExperience,
                 PricePerSession = dto.PricePerSession,
-                LicenseNumber = dto.LicenseNumber
+                LicenseNumber = dto.LicenseNumber,
+                Status = VerificationStatus.Pending,
+                SupportsVideo = true, // Set based on your requirements
+                SupportsAudio = true,
+                SupportsText = true
             };
 
-            // 5. Handle file uploads
-            if (dto.LicenseCertificate != null)
+            // 6. Handle file uploads
+            try
             {
-                profile.LicenseCertificatePath = await _fileService.SaveFileAsync(dto.LicenseCertificate);
+                if (dto.LicenseCertificate != null)
+                {
+                    profile.LicenseCertificatePath = await _fileService.SaveFileAsync(dto.LicenseCertificate);
+                }
+
+                if (dto.ProfilePicture != null)
+                {
+                    profile.ProfilePictureUrl = await _fileService.SaveFileAsync(dto.ProfilePicture);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error saving therapist files");
+                return StatusCode(500, "Error processing files");
             }
 
-            if (dto.ProfilePicture != null)
-            {
-                profile.ProfilePictureUrl = await _fileService.SaveFileAsync(dto.ProfilePicture);
-            }
-
+            // 7. Save profile first
             await _context.TherapistProfiles.AddAsync(profile);
+            await _context.SaveChangesAsync();
 
-            // 6. Add specializations
+            // 8. Add specializations after profile is saved
             var therapistSpecializations = dto.SpecializationIds.Select(id =>
                 new TherapistSpecialization
                 {
-                    TherapistId = user.Id,
+                    TherapistId = profile.Id, // Use profile.Id here
                     SpecializationId = id
                 });
 
             await _context.TherapistSpecializations.AddRangeAsync(therapistSpecializations);
 
-            // 7. Set default availability
+            // 9. Set default availability if provided
             if (dto.DefaultAvailability?.Any() == true)
             {
                 var slots = dto.DefaultAvailability.Select(a => new AvailabilitySlot
                 {
-                    TherapistId = user.Id,
+                    TherapistId = user.Id, // This should match your AvailabilitySlot model
                     DayOfWeek = a.DayOfWeek,
                     StartTime = a.StartTime,
                     EndTime = a.EndTime
@@ -218,12 +236,16 @@ namespace Project_Api.Controllers
                 await _context.AvailabilitySlots.AddRangeAsync(slots);
             }
 
+            // 10. Save all remaining changes
             await _context.SaveChangesAsync();
 
-            // 8. Notify admin for verification
-          //  await _notificationService.NotifyAdminForVerification(user.Id);
-
-            return Ok(new { UserId = user.Id });
+            // 11. Return success response
+            return Ok(new
+            {
+                UserId = user.Id,
+                ProfileId = profile.Id,
+                Message = "Therapist registered successfully. Awaiting admin verification."
+            });
         }
 
 

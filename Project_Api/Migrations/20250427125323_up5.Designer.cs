@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectApi.Models;
 
@@ -11,9 +12,11 @@ using ProjectApi.Models;
 namespace Project_Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250427125323_up5")]
+    partial class up5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -213,7 +216,7 @@ namespace Project_Api.Migrations
                             IsBooked = false,
                             SlotType = "Video",
                             StartTime = new TimeSpan(0, 9, 0, 0, 0),
-                            TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08"
+                            TherapistId = "seed-therapist-1"
                         },
                         new
                         {
@@ -224,7 +227,7 @@ namespace Project_Api.Migrations
                             IsBooked = false,
                             SlotType = "InPerson",
                             StartTime = new TimeSpan(0, 14, 0, 0, 0),
-                            TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08"
+                            TherapistId = "seed-therapist-1"
                         },
                         new
                         {
@@ -235,7 +238,7 @@ namespace Project_Api.Migrations
                             IsBooked = false,
                             SlotType = "Video",
                             StartTime = new TimeSpan(0, 10, 0, 0, 0),
-                            TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08"
+                            TherapistId = "seed-therapist-1"
                         });
                 });
 
@@ -765,6 +768,29 @@ namespace Project_Api.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "seed-therapist-1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "01cf4143-32fc-4efb-b3b2-458bdcd66d8b",
+                            DateOfBirth = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "therapist1@test.com",
+                            EmailConfirmed = true,
+                            FullName = "Dr. Test Therapist",
+                            Gender = "Male",
+                            IsVerified = true,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "THERAPIST1@TEST.COM",
+                            NormalizedUserName = "TESTTHERAPIST1",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHyipAH1XW2HJm98N2RvAOJjRlWjMIBtYtTpQnRAT+FfFJ36wZGIT5LhUjJZaPKX2Q==",
+                            PhoneNumber = "1234567890",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "1e3d7a79-60cb-47b1-9351-6fc1da7c9d53",
+                            TwoFactorEnabled = false,
+                            UserName = "testtherapist1"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

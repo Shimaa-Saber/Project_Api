@@ -12,7 +12,9 @@ namespace Project_Api.DTO.UserDtos
 
 
         [Required] public string FullName { get; set; }
-        [Required] public DateTime DateOfBirth { get; set; }
+        [Required(ErrorMessage = "Date of birth is required")]
+        [DataType(DataType.Date)]
+        public DateTime DateOfBirth { get; set; }
         [Required] public string Gender { get; set; }
 
 

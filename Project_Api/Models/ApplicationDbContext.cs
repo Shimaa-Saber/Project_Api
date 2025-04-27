@@ -47,15 +47,62 @@ namespace ProjectApi.Models
                 .Property(t => t.PricePerSession)
                 .HasPrecision(18, 2);
 
-            //modelBuilder.Entity<TherapistSpecialization>()
-            //    .Property(t => t.)
-            //    .HasPrecision(3, 2); // e.g., 0.75, 1.00
+            modelBuilder.Entity<TherapistSpecialization>()
+                    .HasOne(ts => ts.Therapist)
+                    .WithMany(t => t.TherapistSpecializations)
+                    .HasForeignKey(ts => ts.TherapistId)
+                    .OnDelete(DeleteBehavior.Cascade);
 
             // Other configurations...
             //modelBuilder.Entity<User>()
             //    .HasOne(u => u.TherapistProfile)
             //    .WithOne(t => t.User)
             //    .HasForeignKey<TherapistProfile>(t => t.UserId);
+
+            modelBuilder.Entity<AvailabilitySlot>().HasData(
+       new AvailabilitySlot
+       {
+           Id = 1,
+           TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08",
+           Date = DateTime.Today.AddDays(1),
+           StartTime = new TimeSpan(9, 0, 0),
+           EndTime = new TimeSpan(10, 0, 0),
+           SlotType = "Video",
+           IsBooked = false,
+           DayOfWeek = DateTime.Today.AddDays(1).DayOfWeek
+       },
+       new AvailabilitySlot
+       {
+           Id = 2,
+           TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08",
+           Date = DateTime.Today.AddDays(1),
+           StartTime = new TimeSpan(14, 0, 0),
+           EndTime = new TimeSpan(15, 0, 0),
+           SlotType = "InPerson",
+           IsBooked = false,
+           DayOfWeek = DateTime.Today.AddDays(1).DayOfWeek
+       },
+       new AvailabilitySlot
+       {
+           Id = 3,
+           TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08",
+           Date = DateTime.Today.AddDays(2),
+           StartTime = new TimeSpan(10, 0, 0),
+           EndTime = new TimeSpan(11, 0, 0),
+           SlotType = "Video",
+           IsBooked = false,
+           DayOfWeek = DateTime.Today.AddDays(2).DayOfWeek
+       }
+   );
+
+
+
+
+
+
+
+
         }
     }
-}
+    }
+
