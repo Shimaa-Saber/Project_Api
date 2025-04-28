@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Project_Api.Interfaces;
 using Project_Api.Models;
@@ -37,6 +38,7 @@ namespace Project_Api
             builder.Services.AddScoped<Notifications, NotificationRepository>();
             builder.Services.AddScoped<Auth, AuthRepo>();
             builder.Services.AddScoped<FileUploadService>();
+            builder.Services.AddScoped<Sessions, SessionRepository>();
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddHttpContextAccessor();
 
@@ -93,8 +95,12 @@ namespace Project_Api
                 {
                     Version = "v1",
                     Title = "ASP.NET 5 Web API",
-                    Description = " ITI Projrcy"
+                    Description = " ITI Projrcy",
+                  
+                   
                 });
+
+               
                 // To Enable authorization using Swagger (JWT)    
                 swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {

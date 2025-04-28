@@ -11,10 +11,12 @@ namespace ProjectApi.Models
         public DateTime Date { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
+       
         public string SlotType { get; set; }
-        public bool IsBooked { get; set; }
+       // public bool IsBooked { get; set; }
 
         public ApplicationUser Therapist { get; set; }
         public DayOfWeek DayOfWeek { get; internal set; }
+        public bool IsAvailable { get; internal set; }
     }
 }

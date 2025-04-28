@@ -64,7 +64,7 @@ namespace Project_Api.Reposatories
                     .Where(s => s.TherapistId == therapistId &&
                                s.Date >= fromDate.Date &&
                                s.Date <= toDate.Date &&
-                               !s.IsBooked);
+                               s.IsAvailable);
 
                 if (!string.IsNullOrEmpty(slotType))
                     query = query.Where(s => s.SlotType == slotType);

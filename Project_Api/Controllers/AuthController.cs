@@ -249,7 +249,7 @@ namespace Project_Api.Controllers
         }
 
 
-        [HttpGet("me")]
+        [HttpGet("GetProfile")]
      
         public async Task<IActionResult> GetProfile()
         {
@@ -260,7 +260,7 @@ namespace Project_Api.Controllers
         }
 
 
-        [HttpPut("me")]
+        [HttpPut("UpdateProfile")]
        
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileRequest request)
         {

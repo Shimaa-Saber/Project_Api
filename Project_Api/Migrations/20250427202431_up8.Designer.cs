@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectApi.Models;
 
@@ -11,9 +12,11 @@ using ProjectApi.Models;
 namespace Project_Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250427202431_up8")]
+    partial class up8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,8 +210,8 @@ namespace Project_Api.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2025, 4, 29, 0, 0, 0, 0, DateTimeKind.Local),
-                            DayOfWeek = 2,
+                            Date = new DateTime(2025, 4, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            DayOfWeek = 1,
                             EndTime = new TimeSpan(0, 10, 0, 0, 0),
                             IsAvailable = true,
                             SlotType = "Video",
@@ -218,8 +221,8 @@ namespace Project_Api.Migrations
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2025, 4, 29, 0, 0, 0, 0, DateTimeKind.Local),
-                            DayOfWeek = 2,
+                            Date = new DateTime(2025, 4, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            DayOfWeek = 1,
                             EndTime = new TimeSpan(0, 15, 0, 0, 0),
                             IsAvailable = true,
                             SlotType = "InPerson",
@@ -229,8 +232,8 @@ namespace Project_Api.Migrations
                         new
                         {
                             Id = 3,
-                            Date = new DateTime(2025, 4, 30, 0, 0, 0, 0, DateTimeKind.Local),
-                            DayOfWeek = 3,
+                            Date = new DateTime(2025, 4, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            DayOfWeek = 2,
                             EndTime = new TimeSpan(0, 11, 0, 0, 0),
                             IsAvailable = true,
                             SlotType = "Video",
@@ -405,6 +408,7 @@ namespace Project_Api.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Notes")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
@@ -1028,15 +1032,19 @@ namespace Project_Api.Migrations
 
             modelBuilder.Entity("ProjectApi.Models.Session", b =>
                 {
-                    b.Navigation("AudioSessionDetail");
+                    b.Navigation("AudioSessionDetail")
+                        .IsRequired();
 
-                    b.Navigation("Payment");
+                    b.Navigation("Payment")
+                        .IsRequired();
 
                     b.Navigation("Reviews");
 
-                    b.Navigation("TextSessionDetail");
+                    b.Navigation("TextSessionDetail")
+                        .IsRequired();
 
-                    b.Navigation("VideoSessionDetail");
+                    b.Navigation("VideoSessionDetail")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ProjectApi.Models.SpecializationType", b =>

@@ -68,7 +68,7 @@ namespace ProjectApi.Models
            StartTime = new TimeSpan(9, 0, 0),
            EndTime = new TimeSpan(10, 0, 0),
            SlotType = "Video",
-           IsBooked = false,
+           IsAvailable = true,
            DayOfWeek = DateTime.Today.AddDays(1).DayOfWeek
        },
        new AvailabilitySlot
@@ -79,7 +79,7 @@ namespace ProjectApi.Models
            StartTime = new TimeSpan(14, 0, 0),
            EndTime = new TimeSpan(15, 0, 0),
            SlotType = "InPerson",
-           IsBooked = false,
+           IsAvailable = true,
            DayOfWeek = DateTime.Today.AddDays(1).DayOfWeek
        },
        new AvailabilitySlot
@@ -90,7 +90,7 @@ namespace ProjectApi.Models
            StartTime = new TimeSpan(10, 0, 0),
            EndTime = new TimeSpan(11, 0, 0),
            SlotType = "Video",
-           IsBooked = false,
+           IsAvailable = true,
            DayOfWeek = DateTime.Today.AddDays(2).DayOfWeek
        }
    );
