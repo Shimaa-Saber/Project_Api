@@ -27,18 +27,18 @@ namespace Project_Api
 
 
 
-            builder.Services.AddScoped<Chats, ChatRepository>();
-            builder.Services.AddScoped<messages, MessageRepository>();
-            builder.Services.AddScoped<Slots, AvailabilitySlotRepository>();
-            builder.Services.AddScoped<VideoSession, VideoSessionRepository>();
-            builder.Services.AddScoped<TextSession, TextSessionRepositoryS>();
-            builder.Services.AddScoped<TherabistProfile, TherapistProfileRepositorys>();
-            builder.Services.AddScoped<TherapistReviews, ReviewRepository>();
-            builder.Services.AddScoped<Paymentt, PaymentRepository>();
-            builder.Services.AddScoped<Notifications, NotificationRepository>();
-            builder.Services.AddScoped<Auth, AuthRepo>();
+            builder.Services.AddScoped<IChats, ChatRepository>();
+            builder.Services.AddScoped<Imessages, MessageRepository>();
+            builder.Services.AddScoped<ISlots, AvailabilitySlotRepository>();
+            builder.Services.AddScoped<IVideoSession, VideoSessionRepository>();
+            builder.Services.AddScoped<ITextSession, TextSessionRepositoryS>();
+            builder.Services.AddScoped<ITherabistProfile, TherapistProfileRepositorys>();
+            builder.Services.AddScoped<ITherapistReviews, ReviewRepository>();
+            builder.Services.AddScoped<IPaymentt, PaymentRepository>();
+            builder.Services.AddScoped<INotifications, NotificationRepository>();
+            builder.Services.AddScoped<IAuth, AuthRepo>();
             builder.Services.AddScoped<FileUploadService>();
-            builder.Services.AddScoped<Sessions, SessionRepository>();
+            builder.Services.AddScoped<ISessions, SessionRepository>();
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddHttpContextAccessor();
 

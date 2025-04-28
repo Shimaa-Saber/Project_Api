@@ -4,7 +4,7 @@ using static Project_Api.Reposatories.ChatRepository;
 
 namespace Project_Api.Reposatories
 {
-    public class ChatRepository:Chats
+    public class ChatRepository:IChats
     {
       
             private readonly ApplicationDbContext _context;
@@ -21,13 +21,13 @@ namespace Project_Api.Reposatories
                 _context.Chats.Find(id);
 
             //public List<Chat> GetActiveChats(int userId) =>
-            //    _context.Chats
+            //    _context.IChats
             //        .Where(c => (c.ClientId == userId || c.TherapistId == userId) &&
             //                    c.IsActive)
             //        .ToList();
 
             //public Chat GetByParticipants(int clientId, int therapistId) =>
-            //    _context.Chats
+            //    _context.IChats
             //        .FirstOrDefault(c => c.ClientId == clientId &&
             //                           c.TherapistId == therapistId);
 

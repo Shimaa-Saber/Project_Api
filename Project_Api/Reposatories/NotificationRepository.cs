@@ -4,7 +4,7 @@ using static Project_Api.Reposatories.NotificationRepository;
 
 namespace Project_Api.Reposatories
 {
-    public class NotificationRepository:Notifications
+    public class NotificationRepository:INotifications
     {
        
             private readonly ApplicationDbContext _context;
@@ -21,7 +21,7 @@ namespace Project_Api.Reposatories
                 _context.Notifications.Find(id);
 
             //public List<Notification> GetUnreadNotifications(int userId) =>
-            //    _context.Notifications
+            //    _context.INotifications
             //        .Where(n => n.UserId == userId && !n.IsRead)
             //        .ToList();
 

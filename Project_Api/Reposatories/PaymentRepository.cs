@@ -4,7 +4,7 @@ using static Project_Api.Reposatories.PaymentRepository;
 
 namespace Project_Api.Reposatories
 {
-    public class PaymentRepository:Paymentt
+    public class PaymentRepository:IPaymentt
     {
        
             private readonly ApplicationDbContext _context;

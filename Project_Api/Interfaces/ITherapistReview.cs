@@ -3,7 +3,7 @@ using ProjectApi.Repositories;
 
 namespace Project_Api.Interfaces
 {
-    public interface Notifications : IGenericRepository<Notification>
+    public interface ITherapistReviews : IGenericRepository<TherapistReview>
     {
     }
 }

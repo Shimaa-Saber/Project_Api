@@ -3,7 +3,7 @@ using ProjectApi.Repositories;
 
 namespace Project_Api.Interfaces
 {
-    public interface TherabistProfile : IGenericRepository<TherapistProfile>
+    public interface Imessages : IGenericRepository<Message>
     {
     }
 }

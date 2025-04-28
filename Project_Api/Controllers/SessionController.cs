@@ -12,14 +12,14 @@ namespace Project_Api.Controllers
     public class SessionController : ControllerBase
     {
 
-        private readonly Slots _availabilityRepo;
+        private readonly ISlots _availabilityRepo;
         private readonly ILogger<SessionController> _logger;
-        private readonly Sessions _sessionRepo;
+        private readonly ISessions _sessionRepo;
 
         public SessionController(
-            Slots availabilityRepo,
+            ISlots availabilityRepo,
             ILogger<SessionController> logger,
-            Sessions sessionRepo
+            ISessions sessionRepo
             
             )
         {

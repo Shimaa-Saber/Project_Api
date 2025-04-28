@@ -2,11 +2,11 @@
 using Project_Api.DTO.BookingSession;
 using Project_Api.Interfaces;
 using ProjectApi.Models;
-using static Project_Api.Interfaces.Sessions;
+using static Project_Api.Interfaces.ISessions;
 
 namespace Project_Api.Reposatories
 {
-    public class SessionRepository : Sessions
+    public class SessionRepository : ISessions
     {
         private readonly ApplicationDbContext _context;
 
@@ -20,7 +20,7 @@ namespace Project_Api.Reposatories
         public Session GetById(int id) => _context.Sessions.Find(id);
 
         //public List<Session> GetByTherapistId(int therapistId) =>
-        //    _context.Sessions.Where(s => s.TherapistId == therapistId).ToList();
+        //    _context.ISessions.Where(s => s.TherapistId == therapistId).ToList();
 
         public void insert(Session obj) => _context.Sessions.Add(obj);
 

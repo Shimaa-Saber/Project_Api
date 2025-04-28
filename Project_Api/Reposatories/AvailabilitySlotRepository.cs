@@ -6,7 +6,7 @@ using static Project_Api.Reposatories.AvailabilitySlotRepository;
 
 namespace Project_Api.Reposatories
 {
-    public class AvailabilitySlotRepository : Slots
+    public class AvailabilitySlotRepository : ISlots
     {
 
 

@@ -3,7 +3,7 @@ using ProjectApi.Models;
 
 namespace Project_Api.Reposatories
 {
-    public class AudioRepo:AudioSession
+    public class AudioRepo:IAudioSession
     {
         ApplicationDbContext Context;
         public AudioRepo(ApplicationDbContext context)

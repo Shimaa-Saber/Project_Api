@@ -3,7 +3,7 @@ using ProjectApi.Repositories;
 
 namespace Project_Api.Interfaces
 {
-    public interface SpecializationTypes:IGenericRepository<SpecializationType>
+    public interface IAudioSession:IGenericRepository<AudioSessionDetail>
     {
     }
 }

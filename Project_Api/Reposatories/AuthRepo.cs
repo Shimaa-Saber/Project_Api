@@ -8,7 +8,7 @@ using ProjectApi.Models;
 
 namespace Project_Api.Reposatories
 {
-    public class AuthRepo : Auth
+    public class AuthRepo : IAuth
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;

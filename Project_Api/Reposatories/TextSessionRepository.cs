@@ -6,7 +6,7 @@ namespace Project_Api.Reposatories
 {
     public class TextSessionRepository
     {
-        public class TextSessionRepositoryS : TextSession
+        public class TextSessionRepositoryS : ITextSession
         {
             private readonly ApplicationDbContext _context;
 

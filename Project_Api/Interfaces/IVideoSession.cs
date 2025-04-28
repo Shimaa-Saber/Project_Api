@@ -3,7 +3,7 @@ using ProjectApi.Repositories;
 
 namespace Project_Api.Interfaces
 {
-    public interface Paymentt : IGenericRepository<Payment>
+    public interface IVideoSession : IGenericRepository<VideoSessionDetail>
     {
     }
 }

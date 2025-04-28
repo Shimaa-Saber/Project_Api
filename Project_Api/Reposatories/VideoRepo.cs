@@ -3,7 +3,7 @@ using ProjectApi.Models;
 
 namespace Project_Api.Reposatories
 {
-    public class VideoSessionRepository : VideoSession
+    public class VideoSessionRepository : IVideoSession
     {
         private readonly ApplicationDbContext _context;
 

@@ -4,7 +4,7 @@ using static Project_Api.Reposatories.MessageRepository;
 
 namespace Project_Api.Reposatories
 {
-    public class MessageRepository:messages
+    public class MessageRepository:Imessages
     {
         
             private readonly ApplicationDbContext _context;

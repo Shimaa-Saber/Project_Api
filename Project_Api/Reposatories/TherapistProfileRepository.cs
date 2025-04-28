@@ -6,7 +6,7 @@ namespace Project_Api.Reposatories
 {
     public class TherapistProfileRepository
     {
-        public class TherapistProfileRepositorys : TherabistProfile
+        public class TherapistProfileRepositorys : ITherabistProfile
         {
             private readonly ApplicationDbContext _context;
 

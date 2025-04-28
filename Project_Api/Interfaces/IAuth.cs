@@ -5,7 +5,7 @@ using ProjectApi.Repositories;
 
 namespace Project_Api.Interfaces
 {
-    public interface Auth: IGenericRepository<ApplicationUser>
+    public interface IAuth: IGenericRepository<ApplicationUser>
     {
         Task<UserProfileResponse> GetUserProfileAsync(string userId);
         Task<UpdateProfileResult> UpdateUserProfileAsync(string userId, UpdateProfileRequest request);

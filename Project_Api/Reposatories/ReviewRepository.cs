@@ -4,7 +4,7 @@ using static Project_Api.Reposatories.ReviewRepository;
 
 namespace Project_Api.Reposatories
 {
-    public class ReviewRepository:TherapistReviews
+    public class ReviewRepository:ITherapistReviews
     {
         
         
@@ -22,7 +22,7 @@ namespace Project_Api.Reposatories
                 _context.TherapistReviews.Find(id);
 
             //public List<TherapistReview> GetVerifiedReviews(int therapistId) =>
-            //    _context.TherapistReviews
+            //    _context.ITherapistReviews
             //        .Where(r => r.TherapistId == therapistId && r.IsVerified)
             //        .ToList();
 

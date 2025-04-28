@@ -5,7 +5,7 @@ using ProjectApi.Repositories;
 
 namespace Project_Api.Interfaces
 {
-    public interface Sessions: IGenericRepository<Session>
+    public interface ISessions: IGenericRepository<Session>
     {
 
         Task<SessionResult> BookSessionAsync(BookSessionDto dto);

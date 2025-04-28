@@ -25,10 +25,10 @@ namespace Project_Api.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration config;
         private readonly FileUploadService _fileService;
-        private readonly Auth _profileRepository;
+        private readonly IAuth _profileRepository;
         private readonly ILogger<AuthController> _logger;
         public AuthController(UserManager<ApplicationUser> userManager, IConfiguration config, SignInManager<ApplicationUser> signInManager
-            , ApplicationDbContext context,Auth auth, 
+            , ApplicationDbContext context,IAuth auth, 
             FileUploadService fileUploadService,ILogger<AuthController> logger)
         {
             this.userManager = userManager;

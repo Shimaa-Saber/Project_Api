@@ -3,7 +3,7 @@ using ProjectApi.Repositories;
 
 namespace Project_Api.Interfaces
 {
-    public interface Chats : IGenericRepository<Chat>
+    public interface ISpecializationTypes:IGenericRepository<SpecializationType>
     {
     }
 }
