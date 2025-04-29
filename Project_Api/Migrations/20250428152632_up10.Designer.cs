@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectApi.Models;
 
@@ -11,9 +12,11 @@ using ProjectApi.Models;
 namespace Project_Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250428152632_up10")]
+    partial class up10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,6 +205,41 @@ namespace Project_Api.Migrations
                     b.HasIndex("TherapistProfileId");
 
                     b.ToTable("AvailabilitySlots");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Date = new DateTime(2025, 4, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 10, 0, 0, 0),
+                            IsAvailable = true,
+                            SlotType = "Video",
+                            StartTime = new TimeSpan(0, 9, 0, 0, 0),
+                            TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Date = new DateTime(2025, 4, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 15, 0, 0, 0),
+                            IsAvailable = true,
+                            SlotType = "InPerson",
+                            StartTime = new TimeSpan(0, 14, 0, 0, 0),
+                            TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Date = new DateTime(2025, 4, 30, 0, 0, 0, 0, DateTimeKind.Local),
+                            DayOfWeek = 3,
+                            EndTime = new TimeSpan(0, 11, 0, 0, 0),
+                            IsAvailable = true,
+                            SlotType = "Video",
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
+                            TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08"
+                        });
                 });
 
             modelBuilder.Entity("ProjectApi.Models.Chat", b =>
@@ -290,15 +328,17 @@ namespace Project_Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Metadata")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RelatedId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -309,52 +349,6 @@ namespace Project_Api.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Notifications");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsRead = false,
-                            Message = "Your session with Dr. Smith is confirmed for tomorrow at 2 PM",
-                            RelatedId = 0,
-                            Title = "Appointment Confirmed",
-                            Type = "Appointment",
-                            UserId = "12b0710c-c16a-4ce8-a17b-b725104ef749"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsRead = true,
-                            Message = "You have 1 new message in your inbox",
-                            RelatedId = 0,
-                            Title = "New Message Received",
-                            Type = "Message",
-                            UserId = "12b0710c-c16a-4ce8-a17b-b725104ef749"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsRead = false,
-                            Message = "Your payment of $50.00 was completed successfully",
-                            RelatedId = 0,
-                            Title = "Payment Processed",
-                            Type = "Payment",
-                            UserId = "12b0710c-c16a-4ce8-a17b-b725104ef749"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsRead = false,
-                            Message = "Scheduled maintenance tonight from 1AM to 3AM",
-                            RelatedId = 0,
-                            Title = "System Maintenance",
-                            Type = "System",
-                            UserId = "12b0710c-c16a-4ce8-a17b-b725104ef749"
-                        });
                 });
 
             modelBuilder.Entity("ProjectApi.Models.Payment", b =>

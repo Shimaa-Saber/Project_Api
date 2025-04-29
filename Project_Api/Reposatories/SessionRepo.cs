@@ -10,6 +10,7 @@ namespace Project_Api.Reposatories
     public class SessionRepository : ISessions
     {
         private readonly ApplicationDbContext _context;
+        private readonly INotifications _notificationService;
 
         public SessionRepository(ApplicationDbContext context)
         {
@@ -65,7 +66,7 @@ namespace Project_Api.Reposatories
                 await transaction.CommitAsync();
 
                 // Fire-and-forget notification
-               // _ = _notificationService.SendBookingConfirmationAsync(session.Id);
+                _ = _notificationService.SendBookingConfirmationAsync(session.Id);
 
                 return new SessionResult(true, session, null);
             }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectApi.Models;
 
@@ -11,9 +12,11 @@ using ProjectApi.Models;
 namespace Project_Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250428160851_up13")]
+    partial class up13
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,6 +205,41 @@ namespace Project_Api.Migrations
                     b.HasIndex("TherapistProfileId");
 
                     b.ToTable("AvailabilitySlots");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Date = new DateTime(2025, 4, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 10, 0, 0, 0),
+                            IsAvailable = true,
+                            SlotType = "Video",
+                            StartTime = new TimeSpan(0, 9, 0, 0, 0),
+                            TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Date = new DateTime(2025, 4, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 15, 0, 0, 0),
+                            IsAvailable = true,
+                            SlotType = "InPerson",
+                            StartTime = new TimeSpan(0, 14, 0, 0, 0),
+                            TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Date = new DateTime(2025, 4, 30, 0, 0, 0, 0, DateTimeKind.Local),
+                            DayOfWeek = 3,
+                            EndTime = new TimeSpan(0, 11, 0, 0, 0),
+                            IsAvailable = true,
+                            SlotType = "Video",
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
+                            TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08"
+                        });
                 });
 
             modelBuilder.Entity("ProjectApi.Models.Chat", b =>

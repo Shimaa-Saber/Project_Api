@@ -11,10 +11,12 @@ namespace ProjectApi.Models
         [ForeignKey("User")]
         public string UserId { get; set; }
         public string Message { get; set; }
-        public NotificationType Type { get; set; }
+        public string? Title { get; set; }
+        public string Type { get; set; }
         public int RelatedId { get; set; }
         public bool IsRead { get; set; }
         public DateTime CreatedAt { get; set; }
+      //  public string? Metadata { get; set; }
 
         public ApplicationUser User { get; set; }
     }
