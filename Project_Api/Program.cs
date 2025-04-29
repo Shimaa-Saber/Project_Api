@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
+using Project_Api.Hubs;
 using Project_Api.Interfaces;
 using Project_Api.Models;
 using Project_Api.Reposatories;
@@ -41,7 +42,12 @@ namespace Project_Api
             builder.Services.AddScoped<ISessions, SessionRepository>();
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddHttpContextAccessor();
+            builder.Services.AddSignalR();
+            builder.Services.AddSingleton<IUserConnectionTracker, UserConnectionTracker>();
 
+            builder.Services.AddSignalR(options => {
+                options.EnableDetailedErrors = true;
+            });
 
 
 
@@ -128,6 +134,7 @@ namespace Project_Api
             });
 
             var app = builder.Build();
+          
             app.UseStaticFiles();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -140,6 +147,7 @@ namespace Project_Api
 
 
             app.MapControllers();
+            app.MapHub<NotificationHub>("/notificationHub");
 
             app.Run();
         }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectApi.Models;
 
@@ -11,9 +12,11 @@ using ProjectApi.Models;
 namespace Project_Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250428160203_up12")]
+    partial class up12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -325,6 +328,9 @@ namespace Project_Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Metadata")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RelatedId")
                         .HasColumnType("int");
 
@@ -352,6 +358,7 @@ namespace Project_Api.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsRead = false,
                             Message = "Your session with Dr. Smith is confirmed for tomorrow at 2 PM",
+                            Metadata = "{\"AppointmentId\":101,\"Date\":\"2025-04-29\",\"Time\":\"14:00\"}",
                             RelatedId = 0,
                             Title = "Appointment Confirmed",
                             Type = "Appointment",
@@ -363,6 +370,7 @@ namespace Project_Api.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsRead = true,
                             Message = "You have 1 new message in your inbox",
+                            Metadata = "{\"Sender\":\"support@clinic.com\",\"Urgent\":true}",
                             RelatedId = 0,
                             Title = "New Message Received",
                             Type = "Message",
@@ -374,6 +382,7 @@ namespace Project_Api.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsRead = false,
                             Message = "Your payment of $50.00 was completed successfully",
+                            Metadata = "{\"Amount\":50.00,\"Method\":\"Credit Card\"}",
                             RelatedId = 0,
                             Title = "Payment Processed",
                             Type = "Payment",
@@ -385,6 +394,7 @@ namespace Project_Api.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsRead = false,
                             Message = "Scheduled maintenance tonight from 1AM to 3AM",
+                            Metadata = "{\"Start\":\"01:00\",\"End\":\"03:00\",\"Timezone\":\"UTC\"}",
                             RelatedId = 0,
                             Title = "System Maintenance",
                             Type = "System",

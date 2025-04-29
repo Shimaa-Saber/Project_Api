@@ -99,6 +99,48 @@ namespace ProjectApi.Models
 
 
 
+            modelBuilder.Entity<Notification>().HasData(
+        new Notification
+        {
+            Id = 1,
+            UserId = "12b0710c-c16a-4ce8-a17b-b725104ef749",
+            Title = "Appointment Confirmed",
+            Message = "Your session with Dr. Smith is confirmed for tomorrow at 2 PM",
+            Type = "Appointment",
+           // Metadata = "{\"AppointmentId\":101,\"Date\":\"2025-04-29\",\"Time\":\"14:00\"}",
+            IsRead = false
+        },
+        new Notification
+        {
+            Id = 2,
+            UserId = "12b0710c-c16a-4ce8-a17b-b725104ef749",
+            Title = "New Message Received",
+            Message = "You have 1 new message in your inbox",
+            Type = "Message",
+           // Metadata = "{\"Sender\":\"support@clinic.com\",\"Urgent\":true}",
+            IsRead = true
+        },
+        new Notification
+        {
+            Id = 3,
+            UserId = "12b0710c-c16a-4ce8-a17b-b725104ef749",
+            Title = "Payment Processed",
+            Message = "Your payment of $50.00 was completed successfully",
+            Type = "Payment",
+           // Metadata = "{\"Amount\":50.00,\"Method\":\"Credit Card\"}",
+            IsRead = false
+        },
+        new Notification
+        {
+            Id = 4,
+            UserId = "12b0710c-c16a-4ce8-a17b-b725104ef749",
+            Title = "System Maintenance",
+            Message = "Scheduled maintenance tonight from 1AM to 3AM",
+            Type = "System",
+        //    Metadata = "{\"Start\":\"01:00\",\"End\":\"03:00\",\"Timezone\":\"UTC\"}",
+            IsRead = false
+        }
+    );
 
 
 
