@@ -12,8 +12,8 @@ using ProjectApi.Models;
 namespace Project_Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250426211013_up4")]
-    partial class up4
+    [Migration("20250428141933_fatma")]
+    partial class fatma
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -181,7 +181,7 @@ namespace Project_Api.Migrations
                     b.Property<TimeSpan>("EndTime")
                         .HasColumnType("time");
 
-                    b.Property<bool>("IsBooked")
+                    b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
                     b.Property<string>("SlotType")
@@ -373,7 +373,6 @@ namespace Project_Api.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Notes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
@@ -997,19 +996,15 @@ namespace Project_Api.Migrations
 
             modelBuilder.Entity("ProjectApi.Models.Session", b =>
                 {
-                    b.Navigation("AudioSessionDetail")
-                        .IsRequired();
+                    b.Navigation("AudioSessionDetail");
 
-                    b.Navigation("Payment")
-                        .IsRequired();
+                    b.Navigation("Payment");
 
                     b.Navigation("Reviews");
 
-                    b.Navigation("TextSessionDetail")
-                        .IsRequired();
+                    b.Navigation("TextSessionDetail");
 
-                    b.Navigation("VideoSessionDetail")
-                        .IsRequired();
+                    b.Navigation("VideoSessionDetail");
                 });
 
             modelBuilder.Entity("ProjectApi.Models.SpecializationType", b =>

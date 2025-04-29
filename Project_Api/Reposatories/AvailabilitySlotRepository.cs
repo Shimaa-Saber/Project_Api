@@ -88,15 +88,12 @@ namespace Project_Api.Reposatories
                 _logger.LogError(ex, "Error fetching available slots");
                 throw; // Let controller handle the exception
             }
+        }
 
-
-
-
-
-
-
-
-
+        public void DeleteAvailabilitySlots(string id)
+        {
+            var oldSlots = _context.AvailabilitySlots.Where(s => s.TherapistId == id);
+            _context.AvailabilitySlots.RemoveRange(oldSlots);
         }
     }
 }

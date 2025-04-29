@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Project_Api.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class fatma : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,8 +63,8 @@ namespace Project_Api.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -197,7 +197,7 @@ namespace Project_Api.Migrations
                         column: x => x.ClientId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Chats_AspNetUsers_TherapistId",
                         column: x => x.TherapistId,
@@ -239,7 +239,7 @@ namespace Project_Api.Migrations
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     YearsOfExperience = table.Column<int>(type: "int", nullable: false),
                     PricePerSession = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    Timezone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Timezone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SupportsVideo = table.Column<bool>(type: "bit", nullable: false),
                     SupportsAudio = table.Column<bool>(type: "bit", nullable: false),
                     SupportsText = table.Column<bool>(type: "bit", nullable: false),
@@ -299,8 +299,8 @@ namespace Project_Api.Migrations
                     StartTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     EndTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     SlotType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsBooked = table.Column<bool>(type: "bit", nullable: false),
                     DayOfWeek = table.Column<int>(type: "int", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false),
                     TherapistProfileId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -356,7 +356,7 @@ namespace Project_Api.Migrations
                     AvailabilitySlotId = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TherapistProfileId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },

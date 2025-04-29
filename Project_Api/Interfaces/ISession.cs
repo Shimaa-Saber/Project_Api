@@ -2,6 +2,7 @@
 using Project_Api.DTO.BookingSession;
 using ProjectApi.Models;
 using ProjectApi.Repositories;
+using System.Linq.Expressions;
 
 namespace Project_Api.Interfaces
 {
@@ -15,6 +16,8 @@ namespace Project_Api.Interfaces
 
         public record SessionResult(bool IsSuccess, Session? Session, string? Error);
         public record CancelResult(bool IsSuccess, string? Error);
+
+        public IQueryable<Session> Get(Expression<Func<Session, bool>> predicate);
 
 
     }

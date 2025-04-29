@@ -40,6 +40,9 @@ namespace Project_Api
             builder.Services.AddScoped<FileUploadService>();
             builder.Services.AddScoped<ISessions, SessionRepository>();
             builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddScoped<IAudioSession, AudioRepo>();
+
+
             builder.Services.AddHttpContextAccessor();
 
 
@@ -55,6 +58,9 @@ namespace Project_Api
                            .AddEntityFrameworkStores<ApplicationDbContext>()
                            .AddDefaultTokenProviders();
 
+
+            builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+            options.SuppressModelStateInvalidFilter = true );
 
 
             builder.Services.AddAuthentication(options => {
