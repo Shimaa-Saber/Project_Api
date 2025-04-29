@@ -8,7 +8,7 @@ namespace ProjectApi.Models
     {
         //public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-       // public DbSet<User> Users { get; set; }
+        // public DbSet<User> Users { get; set; }
         public DbSet<TherapistProfile> TherapistProfiles { get; set; }
         public DbSet<SpecializationType> SpecializationTypes { get; set; }
         public DbSet<TherapistSpecialization> TherapistSpecializations { get; set; }
@@ -58,6 +58,43 @@ namespace ProjectApi.Models
             //    .HasOne(u => u.TherapistProfile)
             //    .WithOne(t => t.User)
             //    .HasForeignKey<TherapistProfile>(t => t.UserId);
+
+
+   //         modelBuilder.Entity<AvailabilitySlot>().HasData(
+   //    new AvailabilitySlot
+   //    {
+   //        Id = 1,
+   //        TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08",
+   //        Date = DateTime.Today.AddDays(1),
+   //        StartTime = new TimeSpan(9, 0, 0),
+   //        EndTime = new TimeSpan(10, 0, 0),
+   //        SlotType = "Video",
+   //        IsAvailable = true,
+   //        DayOfWeek = DateTime.Today.AddDays(1).DayOfWeek
+   //    },
+   //    new AvailabilitySlot
+   //    {
+   //        Id = 2,
+   //        TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08",
+   //        Date = DateTime.Today.AddDays(1),
+   //        StartTime = new TimeSpan(14, 0, 0),
+   //        EndTime = new TimeSpan(15, 0, 0),
+   //        SlotType = "InPerson",
+   //        IsAvailable = true,
+   //        DayOfWeek = DateTime.Today.AddDays(1).DayOfWeek
+   //    },
+   //    new AvailabilitySlot
+   //    {
+   //        Id = 3,
+   //        TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08",
+   //        Date = DateTime.Today.AddDays(2),
+   //        StartTime = new TimeSpan(10, 0, 0),
+   //        EndTime = new TimeSpan(11, 0, 0),
+   //        SlotType = "Video",
+   //        IsAvailable = true,
+   //        DayOfWeek = DateTime.Today.AddDays(2).DayOfWeek
+   //    }
+   //);
 
             modelBuilder.Entity<AvailabilitySlot>().HasData(
        new AvailabilitySlot
@@ -144,7 +181,7 @@ namespace ProjectApi.Models
 
 
 
+
         }
     }
-    }
-
+}

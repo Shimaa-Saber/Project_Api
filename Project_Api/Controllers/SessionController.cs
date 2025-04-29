@@ -30,13 +30,6 @@ namespace Project_Api.Controllers
 
 
 
-
-
-
-
-
-
-
         [HttpGet("availability")]
         [ProducesResponseType(typeof(IEnumerable<AvailabilitySlotDto>), 200)]
         [ProducesResponseType(404)]

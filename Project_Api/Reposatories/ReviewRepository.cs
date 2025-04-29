@@ -1,5 +1,6 @@
 ﻿using Project_Api.Interfaces;
 using ProjectApi.Models;
+using System.Linq.Expressions;
 using static Project_Api.Reposatories.ReviewRepository;
 
 namespace Project_Api.Reposatories
@@ -36,6 +37,11 @@ namespace Project_Api.Reposatories
                 _context.TherapistReviews.Remove(obj);
 
             public void Save() => _context.SaveChanges();
+
+        public IQueryable<TherapistReview> Get(Expression<Func<TherapistReview, bool>> predicate)
+        {
+            return _context.TherapistReviews.Where(predicate);
         }
+    }
     }
 

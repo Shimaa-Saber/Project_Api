@@ -2,6 +2,7 @@
 using Project_Api.DTO.BookingSession;
 using Project_Api.Interfaces;
 using ProjectApi.Models;
+using System.Linq.Expressions;
 using static Project_Api.Interfaces.ISessions;
 
 namespace Project_Api.Reposatories
@@ -131,6 +132,11 @@ namespace Project_Api.Reposatories
                              s.Status == SessionStatus.Cancelled))
                 .OrderByDescending(s => s.AvailabilitySlot.StartTime)
                 .ToListAsync();
+        }
+
+        public IQueryable<Session> Get(Expression<Func<Session, bool>> predicate)
+        {
+            return _context.Sessions.Where(predicate);
         }
 
     }

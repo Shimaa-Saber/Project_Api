@@ -12,8 +12,8 @@ using ProjectApi.Models;
 namespace Project_Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250427125323_up5")]
-    partial class up5
+    [Migration("20250428143041_fatma1")]
+    partial class fatma1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -181,7 +181,7 @@ namespace Project_Api.Migrations
                     b.Property<TimeSpan>("EndTime")
                         .HasColumnType("time");
 
-                    b.Property<bool>("IsBooked")
+                    b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
                     b.Property<string>("SlotType")
@@ -205,41 +205,6 @@ namespace Project_Api.Migrations
                     b.HasIndex("TherapistProfileId");
 
                     b.ToTable("AvailabilitySlots");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Date = new DateTime(2025, 4, 28, 0, 0, 0, 0, DateTimeKind.Local),
-                            DayOfWeek = 1,
-                            EndTime = new TimeSpan(0, 10, 0, 0, 0),
-                            IsBooked = false,
-                            SlotType = "Video",
-                            StartTime = new TimeSpan(0, 9, 0, 0, 0),
-                            TherapistId = "seed-therapist-1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Date = new DateTime(2025, 4, 28, 0, 0, 0, 0, DateTimeKind.Local),
-                            DayOfWeek = 1,
-                            EndTime = new TimeSpan(0, 15, 0, 0, 0),
-                            IsBooked = false,
-                            SlotType = "InPerson",
-                            StartTime = new TimeSpan(0, 14, 0, 0, 0),
-                            TherapistId = "seed-therapist-1"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Date = new DateTime(2025, 4, 29, 0, 0, 0, 0, DateTimeKind.Local),
-                            DayOfWeek = 2,
-                            EndTime = new TimeSpan(0, 11, 0, 0, 0),
-                            IsBooked = false,
-                            SlotType = "Video",
-                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
-                            TherapistId = "seed-therapist-1"
-                        });
                 });
 
             modelBuilder.Entity("ProjectApi.Models.Chat", b =>
@@ -408,7 +373,6 @@ namespace Project_Api.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Notes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
@@ -768,29 +732,6 @@ namespace Project_Api.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "seed-therapist-1",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "01cf4143-32fc-4efb-b3b2-458bdcd66d8b",
-                            DateOfBirth = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "therapist1@test.com",
-                            EmailConfirmed = true,
-                            FullName = "Dr. Test Therapist",
-                            Gender = "Male",
-                            IsVerified = true,
-                            LockoutEnabled = true,
-                            NormalizedEmail = "THERAPIST1@TEST.COM",
-                            NormalizedUserName = "TESTTHERAPIST1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHyipAH1XW2HJm98N2RvAOJjRlWjMIBtYtTpQnRAT+FfFJ36wZGIT5LhUjJZaPKX2Q==",
-                            PhoneNumber = "1234567890",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "1e3d7a79-60cb-47b1-9351-6fc1da7c9d53",
-                            TwoFactorEnabled = false,
-                            UserName = "testtherapist1"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1055,19 +996,15 @@ namespace Project_Api.Migrations
 
             modelBuilder.Entity("ProjectApi.Models.Session", b =>
                 {
-                    b.Navigation("AudioSessionDetail")
-                        .IsRequired();
+                    b.Navigation("AudioSessionDetail");
 
-                    b.Navigation("Payment")
-                        .IsRequired();
+                    b.Navigation("Payment");
 
                     b.Navigation("Reviews");
 
-                    b.Navigation("TextSessionDetail")
-                        .IsRequired();
+                    b.Navigation("TextSessionDetail");
 
-                    b.Navigation("VideoSessionDetail")
-                        .IsRequired();
+                    b.Navigation("VideoSessionDetail");
                 });
 
             modelBuilder.Entity("ProjectApi.Models.SpecializationType", b =>

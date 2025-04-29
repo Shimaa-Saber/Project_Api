@@ -11,5 +11,7 @@ namespace Project_Api.Interfaces
        DateTime? startDate,
        DateTime? endDate,
        string slotType);
+        public void DeleteAvailabilitySlots(string id);
+
     }
 }

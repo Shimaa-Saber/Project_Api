@@ -5,7 +5,7 @@
 namespace Project_Api.Migrations
 {
     /// <inheritdoc />
-    public partial class up3 : Migration
+    public partial class fatma1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

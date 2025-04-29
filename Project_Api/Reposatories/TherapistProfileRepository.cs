@@ -1,5 +1,6 @@
 ﻿using Project_Api.Interfaces;
 using ProjectApi.Models;
+using System.Linq.Expressions;
 using static Project_Api.Reposatories.TherapistProfileRepository;
 
 namespace Project_Api.Reposatories
@@ -21,6 +22,9 @@ namespace Project_Api.Reposatories
             public TherapistProfile GetById(int id) =>
                 _context.TherapistProfiles.Find(id);
 
+            public TherapistProfile GetById(string id) =>
+             _context.TherapistProfiles.Find(id);
+
             //public TherapistProfile GetByUserId(int userId) =>
             //    _context.TherapistProfiles
             //        .FirstOrDefault(t => t.UserId == userId);
@@ -35,6 +39,11 @@ namespace Project_Api.Reposatories
                 _context.TherapistProfiles.Remove(obj);
 
             public void Save() => _context.SaveChanges();
+
+            public IQueryable<TherapistProfile> Get(Expression<Func<TherapistProfile, bool>> predicate)
+            {
+                return _context.TherapistProfiles.Where(predicate);
+            }
         }
     }
 }
