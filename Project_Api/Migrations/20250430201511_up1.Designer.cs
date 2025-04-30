@@ -12,8 +12,8 @@ using ProjectApi.Models;
 namespace Project_Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250430161821_init")]
-    partial class init
+    [Migration("20250430201511_up1")]
+    partial class up1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -205,6 +205,41 @@ namespace Project_Api.Migrations
                     b.HasIndex("TherapistProfileId");
 
                     b.ToTable("AvailabilitySlots");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Date = new DateTime(2025, 5, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            DayOfWeek = 4,
+                            EndTime = new TimeSpan(0, 10, 0, 0, 0),
+                            IsAvailable = true,
+                            SlotType = "Video",
+                            StartTime = new TimeSpan(0, 9, 0, 0, 0),
+                            TherapistId = "943a7e8a-3164-4c88-be8b-58711088b81b"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Date = new DateTime(2025, 5, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            DayOfWeek = 4,
+                            EndTime = new TimeSpan(0, 15, 0, 0, 0),
+                            IsAvailable = true,
+                            SlotType = "InPerson",
+                            StartTime = new TimeSpan(0, 14, 0, 0, 0),
+                            TherapistId = "943a7e8a-3164-4c88-be8b-58711088b81b"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Date = new DateTime(2025, 5, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            DayOfWeek = 5,
+                            EndTime = new TimeSpan(0, 11, 0, 0, 0),
+                            IsAvailable = true,
+                            SlotType = "Video",
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
+                            TherapistId = "943a7e8a-3164-4c88-be8b-58711088b81b"
+                        });
                 });
 
             modelBuilder.Entity("ProjectApi.Models.Chat", b =>
@@ -426,6 +461,33 @@ namespace Project_Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SpecializationTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Cognitive Behavioral Therapy"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Dialectical Behavior Therapy"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Psychodynamic Therapy"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Humanistic Therapy"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Integrative Therapy"
+                        });
                 });
 
             modelBuilder.Entity("ProjectApi.Models.TextSessionDetail", b =>

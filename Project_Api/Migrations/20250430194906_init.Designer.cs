@@ -12,8 +12,8 @@ using ProjectApi.Models;
 namespace Project_Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250430171114_update3")]
-    partial class update3
+    [Migration("20250430194906_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -205,41 +205,6 @@ namespace Project_Api.Migrations
                     b.HasIndex("TherapistProfileId");
 
                     b.ToTable("AvailabilitySlots");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Date = new DateTime(2025, 5, 1, 0, 0, 0, 0, DateTimeKind.Local),
-                            DayOfWeek = 4,
-                            EndTime = new TimeSpan(0, 10, 0, 0, 0),
-                            IsAvailable = true,
-                            SlotType = "Video",
-                            StartTime = new TimeSpan(0, 9, 0, 0, 0),
-                            TherapistId = "02152f1b-4513-49ad-b1df-e6002b551aa0"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Date = new DateTime(2025, 5, 1, 0, 0, 0, 0, DateTimeKind.Local),
-                            DayOfWeek = 4,
-                            EndTime = new TimeSpan(0, 15, 0, 0, 0),
-                            IsAvailable = true,
-                            SlotType = "InPerson",
-                            StartTime = new TimeSpan(0, 14, 0, 0, 0),
-                            TherapistId = "02152f1b-4513-49ad-b1df-e6002b551aa0"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Date = new DateTime(2025, 5, 2, 0, 0, 0, 0, DateTimeKind.Local),
-                            DayOfWeek = 5,
-                            EndTime = new TimeSpan(0, 11, 0, 0, 0),
-                            IsAvailable = true,
-                            SlotType = "Video",
-                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
-                            TherapistId = "02152f1b-4513-49ad-b1df-e6002b551aa0"
-                        });
                 });
 
             modelBuilder.Entity("ProjectApi.Models.Chat", b =>
@@ -347,52 +312,6 @@ namespace Project_Api.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Notifications");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsRead = false,
-                            Message = "Your session with Dr. Smith is confirmed for tomorrow at 2 PM",
-                            RelatedId = 0,
-                            Title = "Appointment Confirmed",
-                            Type = "Appointment",
-                            UserId = "dfb3e4d7-af9b-4a53-9240-35f12ced1de1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsRead = true,
-                            Message = "You have 1 new message in your inbox",
-                            RelatedId = 0,
-                            Title = "New Message Received",
-                            Type = "Message",
-                            UserId = "dfb3e4d7-af9b-4a53-9240-35f12ced1de1"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsRead = false,
-                            Message = "Your payment of $50.00 was completed successfully",
-                            RelatedId = 0,
-                            Title = "Payment Processed",
-                            Type = "Payment",
-                            UserId = "dfb3e4d7-af9b-4a53-9240-35f12ced1de1"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsRead = false,
-                            Message = "Scheduled maintenance tonight from 1AM to 3AM",
-                            RelatedId = 0,
-                            Title = "System Maintenance",
-                            Type = "System",
-                            UserId = "dfb3e4d7-af9b-4a53-9240-35f12ced1de1"
-                        });
                 });
 
             modelBuilder.Entity("ProjectApi.Models.Payment", b =>
@@ -507,6 +426,33 @@ namespace Project_Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SpecializationTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Cognitive Behavioral Therapy"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Dialectical Behavior Therapy"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Psychodynamic Therapy"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Humanistic Therapy"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Integrative Therapy"
+                        });
                 });
 
             modelBuilder.Entity("ProjectApi.Models.TextSessionDetail", b =>

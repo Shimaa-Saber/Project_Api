@@ -312,7 +312,7 @@ namespace Project_Api.Migrations
                         column: x => x.TherapistId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AvailabilitySlots_TherapistProfiles_TherapistProfileId",
                         column: x => x.TherapistProfileId,
@@ -533,6 +533,18 @@ namespace Project_Api.Migrations
                     { "1", null, "Admin", "ADMIN" },
                     { "2", null, "User", "USER" },
                     { "3", null, "Therapist", "THERAPIST" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SpecializationTypes",
+                columns: new[] { "Id", "Category", "Icon", "Name" },
+                values: new object[,]
+                {
+                    { 1, null, null, "Cognitive Behavioral Therapy" },
+                    { 2, null, null, "Dialectical Behavior Therapy" },
+                    { 3, null, null, "Psychodynamic Therapy" },
+                    { 4, null, null, "Humanistic Therapy" },
+                    { 5, null, null, "Integrative Therapy" }
                 });
 
             migrationBuilder.CreateIndex(

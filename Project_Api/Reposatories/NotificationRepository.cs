@@ -76,7 +76,7 @@ namespace Project_Api.Reposatories
         }
 
 
-        public async Task SendNotificationAsync(string userId, string title, string message)
+        public async Task SendNotificationAsync(string userId, string title, string message,)
         {
             var connections = _connectionTracker.GetConnections(userId);
             foreach (var connectionId in connections)

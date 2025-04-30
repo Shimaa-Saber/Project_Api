@@ -11,10 +11,12 @@ namespace Project_Api.Reposatories
     {
         private readonly ApplicationDbContext _context;
         private readonly INotifications _notificationService;
+        private readonly ILogger<SessionRepository> _logger;
 
-        public SessionRepository(ApplicationDbContext context)
+        public SessionRepository(ApplicationDbContext context, ILogger<SessionRepository> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public List<Session> GetAll() => _context.Sessions.ToList();
@@ -35,45 +37,45 @@ namespace Project_Api.Reposatories
 
         public async Task<SessionResult> BookSessionAsync(BookSessionDto dto)
         {
-            await using var transaction = await _context.Database.BeginTransactionAsync();
+            if (dto == null)
+                return new SessionResult(false, null, "Invalid request data");
 
             try
             {
-                // Validate slot
                 var slot = await _context.AvailabilitySlots
                     .FirstOrDefaultAsync(s => s.Id == dto.AvailabilitySlotId && s.IsAvailable);
 
                 if (slot == null)
                     return new SessionResult(false, null, "Slot not available");
 
-                // Create session
+                slot.IsAvailable = false;
                 var session = new Session
                 {
                     ClientId = dto.ClientId,
                     TherapistId = dto.TherapistId,
                     AvailabilitySlotId = dto.AvailabilitySlotId,
                     Type = dto.SessionType,
-                    Notes = dto.Notes,
                     Status = SessionStatus.Confirmed,
-                    CreatedAt = DateTime.UtcNow
-                };
+                    CreatedAt = DateTime.UtcNow,
+                    Notes = dto.Notes,
 
-                // Update slot
-                slot.IsAvailable = false;
+                };
 
                 _context.Sessions.Add(session);
                 await _context.SaveChangesAsync();
-                await transaction.CommitAsync();
 
-                // Fire-and-forget notification
-                _ = _notificationService.SendBookingConfirmationAsync(session.Id);
+               
+                //_ = _notificationService.SendBookingConfirmationAsync(session.Id)
+                //    .ContinueWith(t =>
+                //        _logger.LogError(t.Exception, "Notification failed"),
+                //        TaskContinuationOptions.OnlyOnFaulted);
 
                 return new SessionResult(true, session, null);
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync();
-                return new SessionResult(false, null, ex.Message);
+                _logger.LogError(ex, "Booking failed");
+                return new SessionResult(false, null, "Booking error occurred");
             }
         }
 
