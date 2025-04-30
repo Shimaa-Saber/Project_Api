@@ -60,12 +60,12 @@ namespace ProjectApi.Models
             //    .HasForeignKey<TherapistProfile>(t => t.UserId);
 
 
- 
+
             modelBuilder.Entity<AvailabilitySlot>().HasData(
        new AvailabilitySlot
        {
            Id = 1,
-           TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08",
+           TherapistId = "02152f1b-4513-49ad-b1df-e6002b551aa0",
            Date = DateTime.Today.AddDays(1),
            StartTime = new TimeSpan(9, 0, 0),
            EndTime = new TimeSpan(10, 0, 0),
@@ -76,7 +76,7 @@ namespace ProjectApi.Models
        new AvailabilitySlot
        {
            Id = 2,
-           TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08",
+           TherapistId = "02152f1b-4513-49ad-b1df-e6002b551aa0",
            Date = DateTime.Today.AddDays(1),
            StartTime = new TimeSpan(14, 0, 0),
            EndTime = new TimeSpan(15, 0, 0),
@@ -87,7 +87,7 @@ namespace ProjectApi.Models
        new AvailabilitySlot
        {
            Id = 3,
-           TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08",
+           TherapistId = "02152f1b-4513-49ad-b1df-e6002b551aa0",
            Date = DateTime.Today.AddDays(2),
            StartTime = new TimeSpan(10, 0, 0),
            EndTime = new TimeSpan(11, 0, 0),
@@ -105,41 +105,41 @@ namespace ProjectApi.Models
         new Notification
         {
             Id = 1,
-            UserId = "12b0710c-c16a-4ce8-a17b-b725104ef749",
+            UserId = "dfb3e4d7-af9b-4a53-9240-35f12ced1de1",
             Title = "Appointment Confirmed",
             Message = "Your session with Dr. Smith is confirmed for tomorrow at 2 PM",
             Type = "Appointment",
-           // Metadata = "{\"AppointmentId\":101,\"Date\":\"2025-04-29\",\"Time\":\"14:00\"}",
+            // Metadata = "{\"AppointmentId\":101,\"Date\":\"2025-04-29\",\"Time\":\"14:00\"}",
             IsRead = false
         },
         new Notification
         {
             Id = 2,
-            UserId = "12b0710c-c16a-4ce8-a17b-b725104ef749",
+            UserId = "dfb3e4d7-af9b-4a53-9240-35f12ced1de1",
             Title = "New Message Received",
             Message = "You have 1 new message in your inbox",
             Type = "Message",
-           // Metadata = "{\"Sender\":\"support@clinic.com\",\"Urgent\":true}",
+            // Metadata = "{\"Sender\":\"support@clinic.com\",\"Urgent\":true}",
             IsRead = true
         },
         new Notification
         {
             Id = 3,
-            UserId = "12b0710c-c16a-4ce8-a17b-b725104ef749",
+            UserId = "dfb3e4d7-af9b-4a53-9240-35f12ced1de1",
             Title = "Payment Processed",
             Message = "Your payment of $50.00 was completed successfully",
             Type = "Payment",
-           // Metadata = "{\"Amount\":50.00,\"Method\":\"Credit Card\"}",
+            // Metadata = "{\"Amount\":50.00,\"Method\":\"Credit Card\"}",
             IsRead = false
         },
         new Notification
         {
             Id = 4,
-            UserId = "12b0710c-c16a-4ce8-a17b-b725104ef749",
+            UserId = "dfb3e4d7-af9b-4a53-9240-35f12ced1de1",
             Title = "System Maintenance",
             Message = "Scheduled maintenance tonight from 1AM to 3AM",
             Type = "System",
-        //    Metadata = "{\"Start\":\"01:00\",\"End\":\"03:00\",\"Timezone\":\"UTC\"}",
+            //    Metadata = "{\"Start\":\"01:00\",\"End\":\"03:00\",\"Timezone\":\"UTC\"}",
             IsRead = false
         }
     );

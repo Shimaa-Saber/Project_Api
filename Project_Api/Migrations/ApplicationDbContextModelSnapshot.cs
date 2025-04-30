@@ -202,6 +202,41 @@ namespace Project_Api.Migrations
                     b.HasIndex("TherapistProfileId");
 
                     b.ToTable("AvailabilitySlots");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Date = new DateTime(2025, 5, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            DayOfWeek = 4,
+                            EndTime = new TimeSpan(0, 10, 0, 0, 0),
+                            IsAvailable = true,
+                            SlotType = "Video",
+                            StartTime = new TimeSpan(0, 9, 0, 0, 0),
+                            TherapistId = "02152f1b-4513-49ad-b1df-e6002b551aa0"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Date = new DateTime(2025, 5, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            DayOfWeek = 4,
+                            EndTime = new TimeSpan(0, 15, 0, 0, 0),
+                            IsAvailable = true,
+                            SlotType = "InPerson",
+                            StartTime = new TimeSpan(0, 14, 0, 0, 0),
+                            TherapistId = "02152f1b-4513-49ad-b1df-e6002b551aa0"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Date = new DateTime(2025, 5, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            DayOfWeek = 5,
+                            EndTime = new TimeSpan(0, 11, 0, 0, 0),
+                            IsAvailable = true,
+                            SlotType = "Video",
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
+                            TherapistId = "02152f1b-4513-49ad-b1df-e6002b551aa0"
+                        });
                 });
 
             modelBuilder.Entity("ProjectApi.Models.Chat", b =>
@@ -320,7 +355,7 @@ namespace Project_Api.Migrations
                             RelatedId = 0,
                             Title = "Appointment Confirmed",
                             Type = "Appointment",
-                            UserId = "12b0710c-c16a-4ce8-a17b-b725104ef749"
+                            UserId = "dfb3e4d7-af9b-4a53-9240-35f12ced1de1"
                         },
                         new
                         {
@@ -331,7 +366,7 @@ namespace Project_Api.Migrations
                             RelatedId = 0,
                             Title = "New Message Received",
                             Type = "Message",
-                            UserId = "12b0710c-c16a-4ce8-a17b-b725104ef749"
+                            UserId = "dfb3e4d7-af9b-4a53-9240-35f12ced1de1"
                         },
                         new
                         {
@@ -342,7 +377,7 @@ namespace Project_Api.Migrations
                             RelatedId = 0,
                             Title = "Payment Processed",
                             Type = "Payment",
-                            UserId = "12b0710c-c16a-4ce8-a17b-b725104ef749"
+                            UserId = "dfb3e4d7-af9b-4a53-9240-35f12ced1de1"
                         },
                         new
                         {
@@ -353,7 +388,7 @@ namespace Project_Api.Migrations
                             RelatedId = 0,
                             Title = "System Maintenance",
                             Type = "System",
-                            UserId = "12b0710c-c16a-4ce8-a17b-b725104ef749"
+                            UserId = "dfb3e4d7-af9b-4a53-9240-35f12ced1de1"
                         });
                 });
 

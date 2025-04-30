@@ -148,6 +148,7 @@ namespace Project_Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
