@@ -60,42 +60,7 @@ namespace ProjectApi.Models
             //    .HasForeignKey<TherapistProfile>(t => t.UserId);
 
 
-   //         modelBuilder.Entity<AvailabilitySlot>().HasData(
-   //    new AvailabilitySlot
-   //    {
-   //        Id = 1,
-   //        TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08",
-   //        Date = DateTime.Today.AddDays(1),
-   //        StartTime = new TimeSpan(9, 0, 0),
-   //        EndTime = new TimeSpan(10, 0, 0),
-   //        SlotType = "Video",
-   //        IsAvailable = true,
-   //        DayOfWeek = DateTime.Today.AddDays(1).DayOfWeek
-   //    },
-   //    new AvailabilitySlot
-   //    {
-   //        Id = 2,
-   //        TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08",
-   //        Date = DateTime.Today.AddDays(1),
-   //        StartTime = new TimeSpan(14, 0, 0),
-   //        EndTime = new TimeSpan(15, 0, 0),
-   //        SlotType = "InPerson",
-   //        IsAvailable = true,
-   //        DayOfWeek = DateTime.Today.AddDays(1).DayOfWeek
-   //    },
-   //    new AvailabilitySlot
-   //    {
-   //        Id = 3,
-   //        TherapistId = "d6570062-9ae7-4109-84bb-19770cb70d08",
-   //        Date = DateTime.Today.AddDays(2),
-   //        StartTime = new TimeSpan(10, 0, 0),
-   //        EndTime = new TimeSpan(11, 0, 0),
-   //        SlotType = "Video",
-   //        IsAvailable = true,
-   //        DayOfWeek = DateTime.Today.AddDays(2).DayOfWeek
-   //    }
-   //);
-
+ 
             modelBuilder.Entity<AvailabilitySlot>().HasData(
        new AvailabilitySlot
        {
