@@ -16,5 +16,6 @@ namespace ProjectApi.Models
 
         public Chat Chat { get; set; }
         public ApplicationUser Sender { get; set; }
+      //  public object SentAt { get; internal set; }
     }
 }

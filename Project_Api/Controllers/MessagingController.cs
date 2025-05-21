@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using Project_Api.DTO;
+using Project_Api.Hubs;
 using Project_Api.Interfaces;
 using Project_Api.Reposatories;
-using Project_Api.DTO;
+using System.Security.Claims;
 
 namespace Project_Api.Controllers
 {
@@ -11,53 +14,64 @@ namespace Project_Api.Controllers
     [ApiController]
     public class MessagingController : ControllerBase
     {
-        private readonly IChats chatRepository;
-        private readonly Imessages messageRepository;
+        private readonly IChats _chatRepository;
+        private readonly IHubContext<ChatHub> _hubContext;
 
-        public MessagingController(IChats chatRepository, Imessages messageRepository)
+        public MessagingController(IChats chatRepository, IHubContext<ChatHub> hubContext)
         {
-            this.chatRepository = chatRepository;
-            this.messageRepository = messageRepository;
+            _chatRepository = chatRepository;
+            _hubContext = hubContext;
         }
 
-        // 1. List my conversations
-        [HttpGet("chats")]
+        [HttpGet]
         public async Task<IActionResult> GetMyChats()
         {
-            var userId = GetCurrentUserId(); // now string
-            var chats = await chatRepository.GetChatsByUserIdAsync(userId);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var chats = await _chatRepository.GetUserChatsAsync(userId);
             return Ok(chats);
         }
 
-        // 2. Get chat history
-        [HttpGet("chats/{chatId}/messages")]
-        public async Task<IActionResult> GetChatMessages(int chatId)
+        [HttpGet("{id}/messages")]
+        public async Task<IActionResult> GetChatMessages(int id)
         {
-            var messages = await messageRepository.GetMessagesByChatIdAsync(chatId);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var messages = await _chatRepository.GetChatMessagesAsync(id, userId);
             return Ok(messages);
         }
 
-        // 3. Send message
-        [HttpPost("chats/{chatId}/messages")]
-        public async Task<IActionResult> SendMessage(int chatId, [FromBody] SendMessageDto messageDto)
+        [HttpPost("{id}/messages")]
+        public async Task<IActionResult> SendMessage(int id, [FromBody] SendMessageDto dto)
         {
-            var userId = GetCurrentUserId(); // now string
-            var message = await messageRepository.SendMessageAsync(chatId, userId, messageDto.Content);
+            var senderId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var message = await _chatRepository.SendMessageAsync(id, senderId, dto.Content);
+
+            if (message == null)
+                return BadRequest("Invalid chat or sender");
+
+           
+            await _hubContext.Clients.Group($"user-{message.Chat.ClientId}")
+                .SendAsync("ReceiveMessage", message);
+            await _hubContext.Clients.Group($"user-{message.Chat.TherapistId}")
+                .SendAsync("ReceiveMessage", message);
+
             return Ok(message);
         }
 
-        // 4. Mark as read
-        [HttpPut("messages/{messageId}/read")]
-        public async Task<IActionResult> MarkMessageAsRead(int messageId)
+        [HttpPut("messages/{id}/read")]
+        public async Task<IActionResult> MarkAsRead(int id)
         {
-            await messageRepository.MarkAsReadAsync(messageId);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var success = await _chatRepository.MarkMessageAsReadAsync(id, userId);
+
+            if (!success)
+                return BadRequest("Message not found or already read");
+
+          
+            await _hubContext.Clients.User(userId)
+                .SendAsync("MessageRead", id);
+
             return NoContent();
         }
-
-        // ✅ تم التعديل هنا: ترجع string بدل int
-        private string GetCurrentUserId()
-        {
-            return User.FindFirst("id")?.Value;
-        }
     }
+
 }
