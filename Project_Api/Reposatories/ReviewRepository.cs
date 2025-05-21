@@ -30,6 +30,7 @@ namespace Project_Api.Reposatories
             {
                 ClientId = clientId,
                 TherapistId = dto.TherapistId,
+                SessionId = dto.SessionId,
                 Rating = dto.Rating,
                 Content = dto.Comment,
                 CreatedAt = DateTime.UtcNow
@@ -96,6 +97,11 @@ namespace Project_Api.Reposatories
             return true;
         }
 
+        public IQueryable<TherapistReview> Get(Expression<Func<TherapistReview, bool>> predicate)
+        {
+            return _context.TherapistReviews.Where(predicate);
+        }
+
 
 
         private async Task UpdateTherapistRatingAsync(string therapistId)
@@ -119,6 +125,10 @@ namespace Project_Api.Reposatories
             {
                 _logger.LogError(ex, $"Error updating rating for therapist {therapistId}");
             }
+
+
+
+
 
 
 

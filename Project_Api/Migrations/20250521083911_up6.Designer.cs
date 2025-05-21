@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectApi.Models;
 
@@ -11,9 +12,11 @@ using ProjectApi.Models;
 namespace Project_Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250521083911_up6")]
+    partial class up6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -649,7 +652,7 @@ namespace Project_Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool?>("Anonymous")
+                    b.Property<bool>("Anonymous")
                         .HasColumnType("bit");
 
                     b.Property<string>("ClientId")
@@ -660,7 +663,7 @@ namespace Project_Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsVerified")
@@ -669,7 +672,7 @@ namespace Project_Api.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("ResponseAt")
+                    b.Property<DateTime>("ResponseAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("SessionId")
@@ -680,9 +683,11 @@ namespace Project_Api.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("TherapistResponse")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

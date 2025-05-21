@@ -28,7 +28,7 @@ namespace Project_Api.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "Client")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> CreateReview([FromBody] CreateReviewDto dto)
         {
             var clientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -39,7 +39,7 @@ namespace Project_Api.Controllers
 
 
     [HttpPut("{id}/response")]
-    [Authorize(Roles = "Therapist")]
+  //  [Authorize(Roles = "Therapist")]
         public async Task<IActionResult> AddResponse(
         int id,
         [FromBody] ReviewResponseDto dto)

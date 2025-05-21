@@ -12,5 +12,7 @@ namespace Project_Api.DTO.Review
 
         [Required]
         public string TherapistId { get; set; }
+        [Required]
+        public int SessionId { get; set; }
     }
 }

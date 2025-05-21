@@ -8,7 +8,7 @@ namespace Project_Api.Interfaces
 {
     public interface ITherapistReviews 
     {
-     //   public IQueryable<TherapistReview> Get(Expression<Func<TherapistReview, bool>> predicate);
+        public IQueryable<TherapistReview> Get(Expression<Func<TherapistReview, bool>> predicate);
 
         Task<TherapistReview> CreateReviewAsync(string clientId, CreateReviewDto dto);
         Task<TherapistReview> AddTherapistResponseAsync(int reviewId, string therapistId, ReviewResponseDto dto);
