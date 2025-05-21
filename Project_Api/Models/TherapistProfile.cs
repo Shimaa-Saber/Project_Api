@@ -27,7 +27,7 @@ namespace ProjectApi.Models
         public ICollection<TherapistSpecialization> TherapistSpecializations { get; set; }
         public ICollection<AvailabilitySlot> AvailabilitySlots { get; set; }
         public ICollection<Session> Sessions { get; set; }
-     
+        public decimal AverageRating { get; internal set; }
     }
 }
 

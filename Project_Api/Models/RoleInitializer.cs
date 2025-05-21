@@ -19,7 +19,7 @@ namespace Project_Api.Models
                 }
             }
 
-            // Create default admin user
+         
             var adminEmail = "admin@example.com";
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
 

@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
-using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ProjectApi.Models;
 using Microsoft.EntityFrameworkCore;
+using Project_Api.DTO.Review;
+using Project_Api.Interfaces;
+using Project_Api.Reposatories;
+using ProjectApi.Models;
+using System;
+using System.Security.Claims;
 
 namespace Project_Api.Controllers
 {
@@ -12,68 +15,56 @@ namespace Project_Api.Controllers
     [ApiController]
     public class ReviewsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-      
-        public ReviewsController(ApplicationDbContext context)
+        private readonly ITherapistReviews _reviewRepository;
+        private readonly ILogger<ReviewsController> _logger;
+
+
+        public ReviewsController(ITherapistReviews reviewRepository, ILogger<ReviewsController> logger)
         {
-            _context = context;
+          
+            _logger = logger;
+            _reviewRepository = reviewRepository;
         }
 
-        
+
         [HttpPost]
-        public async Task<IActionResult> SubmitReview(TherapistReview review)
+        [Authorize(Roles = "Client")]
+        public async Task<IActionResult> CreateReview([FromBody] CreateReviewDto dto)
         {
-            review.CreatedAt = DateTime.UtcNow;
-            review.IsVerified = false; 
-            _context.TherapistReviews.Add(review);
-            await _context.SaveChangesAsync();
+            var clientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var review = await _reviewRepository.CreateReviewAsync(clientId, dto);
+
             return Ok(review);
         }
 
-        
-        [HttpPut("{id}/response")]
-        public async Task<IActionResult> RespondToReview(int id, [FromBody] string therapistResponse)
-        {
-            var review = await _context.TherapistReviews.FindAsync(id);
-            if (review == null)
-                return NotFound();
 
-           
-            review.Content += "\n\nTherapist Response: " + therapistResponse;
-            await _context.SaveChangesAsync();
-            return Ok(review);
+    [HttpPut("{id}/response")]
+    [Authorize(Roles = "Therapist")]
+        public async Task<IActionResult> AddResponse(
+        int id,
+        [FromBody] ReviewResponseDto dto)
+        {
+            var therapistId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var review = await _reviewRepository.AddTherapistResponseAsync(id, therapistId, dto);
+
+            return review == null ? NotFound() : Ok(review);
         }
 
         [HttpGet("me")]
-        public async Task<ActionResult<IEnumerable<TherapistReview>>> GetMyReviews()
+        public async Task<IActionResult> GetMyReviews()
         {
-           
-            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return BadRequest("Invalid user ID in token.");
-            }
-
-           
-            var reviews = await _context.TherapistReviews
-                .Where(r =>  r.TherapistId == userId)
-                .ToListAsync();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var reviews = await _reviewRepository.GetUserReviewsAsync(userId);
 
             return Ok(reviews);
         }
-       
+
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteReview(int id)
         {
-            var review = await _context.TherapistReviews.FindAsync(id);
-            if (review == null)
-                return NotFound();
-
-            _context.TherapistReviews.Remove(review);
-            await _context.SaveChangesAsync();
-            return NoContent();
+            var success = await _reviewRepository.DeleteReviewAsync(id, isAdmin: true);
+            return success ? NoContent() : NotFound();
         }
 
     }

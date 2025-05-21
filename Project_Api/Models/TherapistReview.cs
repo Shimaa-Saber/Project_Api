@@ -8,7 +8,9 @@ namespace ProjectApi.Models
         public int Id { get; set; }
         [ForeignKey("Therapist")]
         public string TherapistId { get; set; }
-       
+        [ForeignKey("Client")]
+        public string ClientId { get; set; }
+
         [ForeignKey("Session")]
         public int SessionId { get; set; }
         public int Rating { get; set; }
@@ -19,6 +21,9 @@ namespace ProjectApi.Models
         public DateTime CreatedAt { get; set; }
 
         public ApplicationUser Therapist { get; set; }
+        public ApplicationUser Client { get; set; }
         public Session Session { get; set; }
+        public string TherapistResponse { get; internal set; }
+        public DateTime ResponseAt { get; internal set; }
     }
 }
