@@ -66,8 +66,15 @@ namespace Project_Api.Reposatories
         {
             return await _context.TherapistReviews
                 .Where(r => r.ClientId == userId || r.TherapistId == userId)
-                .Include(r => r.Client)
-                .Include(r => r.Therapist)
+                .Select(selector => new TherapistReview
+                {
+                    Id = selector.Id,
+                    Rating = selector.Rating,
+                    Content = selector.Content,
+                    CreatedAt = selector.CreatedAt,
+                    TherapistResponse = selector.TherapistResponse,
+                   
+                })
                 .OrderByDescending(r => r.CreatedAt)
                 .ToListAsync();
         }

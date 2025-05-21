@@ -39,7 +39,7 @@ namespace Project_Api.Controllers
 
 
     [HttpPut("{id}/response")]
-  //  [Authorize(Roles = "Therapist")]
+    [Authorize(Roles = "Therapist")]
         public async Task<IActionResult> AddResponse(
         int id,
         [FromBody] ReviewResponseDto dto)
